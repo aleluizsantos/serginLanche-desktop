@@ -1,0 +1,17 @@
+.swift {
+    display: flex;
+    border: 1px solid #cbf3c5;
+    width: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: ease-in-out 1s;
+    padding: 1px;
+}
+.swift .toogle {
+    height: 18px;
+    width: 20px;
+    border-radius: 100%;
+    background-color: #7fff00;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

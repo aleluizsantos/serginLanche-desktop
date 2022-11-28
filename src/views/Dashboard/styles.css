@@ -1,0 +1,66 @@
+.headerWeek {
+    display: flex;
+    justify-content: space-between;
+}
+.headerWeek .action i {
+    padding: 5px;
+    font-size: 16px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.headerWeek .action i:hover {
+    font-weight: bold;
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+.content-cardTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content-cardTitle span {
+    font-weight: bold;
+}
+.content-cardBody {
+    overflow-y: auto;
+    height: 500px;
+    padding: 0 10px 0 0 ;
+}
+.content-cardBody .itemTop10client {
+    display: flex;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 10px 0;
+}
+.content-cardBody .itemTop10client .itemClient {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.content-cardBody .itemTop10client .itemClient span {
+    font-weight: bold;
+    color: #4f4f4f;
+}
+.content-cardBody .itemTop10client .itemClient span + span{
+    font-size: 12px;
+    color: #c6c6c6;
+    font-weight: normal;
+}
+.content-cardBody .itemTop10client .itemTotalPur span {
+    font-weight: bold;
+    color: #4f4f4f;
+}
+.content-cardBody .itemTop10client .itemTotalPur span + span{
+    font-size: 12px;
+    color: #c6c6c6;
+    font-weight: normal;
+}
+.content-cardBody .itemTop10client .itemCountClient {
+    width: 5%;
+    font-weight: bold;
+}
+.content-cardBody .itemTop10client .itemTotalPur {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    text-align: right;
+}

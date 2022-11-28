@@ -1,0 +1,12 @@
+export { default as Dashboard } from "./Dashboard";
+export { default as Product } from "./Product";
+export { default as ProductNew } from "./ProductNew";
+export { default as Map } from "./Map";
+export { default as Login } from "./Login";
+export { default as MyOrders } from "./MyOrders";
+export { default as DetailsMyOrder } from "./DetailsMyOrder";
+export { default as Users } from "./Users";
+export { default as ProductCategory } from "./ProductCategory";
+export { default as EntryProductStock } from "./EntryProductStock";
+export { default as Provider } from "./Provider";
+export { default as UserClient } from "./UserClient";

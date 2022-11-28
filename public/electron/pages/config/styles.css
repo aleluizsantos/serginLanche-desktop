@@ -1,0 +1,86 @@
+.body-print-setting {
+ /* display: flex; */
+ margin: 30px 80px;
+ font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.body-print-setting h1 {
+    background: #f8f8f8;
+    padding: 10px;
+    color: #303030;
+}
+.body-print-setting h4 {
+    font-weight: 900;
+}
+.img-print {
+    width: 10vw;
+    max-width: 100px;
+    margin-right: 30px;
+}
+.content-option-print {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 0 30px ;
+}
+.content-option-print div {
+    padding: 5px 0;
+}
+#print-default {
+    font-weight: bold;
+    font-size: 18px;
+}
+.content-list-print,
+.content-list-width {
+    display: flex;
+    padding: 20px 0;
+}
+#bnt-back,
+#bnt-salveConfig {
+    margin: 20px;
+    padding: 10px;
+    min-width: 150px;
+}
+
+#content_list_audio {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+}
+#content_list_audio select {
+    border-radius: 4px;
+    height: 40px;
+    padding: 10px;
+    font-size: 14px;
+}
+.content_volume {
+    display: flex;
+    padding: 20px 0;
+}
+#content_list_audio, .content_volume label {
+    padding-right: 20px;
+    font-weight: bold;
+}
+.bnt-testar {
+    height: 40px;
+    margin: 0 0 0 7px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 750px) {
+    .content-list-print,
+    .content-list-width {
+        flex-direction: column;
+    }
+    .img-print {
+        min-width: 90px;
+        margin-right: 30px;
+        margin-bottom: 20px;
+    }
+    .content-option-print {
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+}

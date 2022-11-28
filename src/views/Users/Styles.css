@@ -1,0 +1,13 @@
+.buttonUsers {
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    padding: 0 20px;
+}
+.buttonUsers button {
+    margin-right: 15px;
+}
+.backgroundUser {
+    height: 129px;
+    background-image: linear-gradient(225deg, #ffe300 0, #ffd300 10%, #ffc000 20%, #ffaa00 30%, #ff9313 40%, #f37b1f 50%, #e26426 60%, #d24f2c 70%, #c43e31 80%, #b82f36 90%, #ae223b 100%);
+}

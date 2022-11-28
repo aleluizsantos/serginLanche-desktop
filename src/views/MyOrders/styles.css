@@ -1,0 +1,41 @@
+.statusMyOrders {
+    width: 10px;
+    height: 8px;
+    border-radius: 50%;
+}
+.SelectStatus {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+.SelectStatus select {
+    background: #f1f1f1;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    /* appearance: none; retirar icone do dropbox */
+    width: 30%;
+    height: 40px;
+    border-radius: 8px;
+    padding: 0 15px;
+    font-size: 16px;
+}
+.SelectStatus option {
+    height: 30px;
+    border: 1px solid #cbcbcb;
+    padding-left: 17px;
+    padding-top: 12px;
+}
+
+.imgTypeDelivery {
+    height: 35px;
+}
+.imgOrderEmpty {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

@@ -1,0 +1,55 @@
+#page-signin {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: #f1f1f1;
+  overflow: hidden;
+}
+
+#page-signin .signinImg {
+  background: url("../../assets/img/signIn.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: bottom;
+}
+#page-signin .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+#page-signin .content .contentCard {
+  width: 70%;
+}
+
+#page-signin .content .contentCard .button-container {
+  margin: 0 15px;
+}
+
+#page-signin .version {
+  position: absolute;
+  right: 35px;
+  bottom: 20px;
+  color: #c6c6c6;
+  font-size: 12px;
+}
+
+@media (max-width: 770px) {
+  #page-signin .signinImg {
+    display: none;
+  }
+}
+@media (max-height: 625px) {
+  #page-signin .signinImg {
+    background: url("../../assets/img/signIn.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: bottom;
+  }
+  #page-signin {
+    overflow-y: auto;
+  }
+}

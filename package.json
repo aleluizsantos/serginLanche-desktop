@@ -1,0 +1,114 @@
+{
+  "name": "sergin_lanche",
+  "version": "1.0.1",
+  "private": true,
+  "main": "public/electron.js",
+  "description": "Aplicação de delivery desenvolvido pela Lesoftware",
+  "homepage": "./",
+  "author": {
+    "name": "Lesoftware",
+    "email": "aleluizsantos@gmail.com"
+  },
+  "scripts": {
+    "electron": "electron .",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "electron:build:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js"
+  },
+  "build": {
+    "copyright": "Copyright @2021-2022 Lesoftware",
+    "buildVersion": "1",
+    "appId": "com.lesoftware.serginlanche",
+    "productName": "Sergin Lanche",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extraFiles": [
+      "./public/electron/assets/**/*"
+    ],
+    "extraResources": [
+      "./public/electron/assets/**"
+    ],
+    "extraMetadata": {
+      "main": "build/electron.js"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "serginlanche.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerIcon": "serginlanche.ico",
+      "uninstallerIcon": "serginlanche.ico",
+      "uninstallDisplayName": "serginLanche-uninstaller",
+      "license": "license.md",
+      "allowToChangeInstallationDirectory": false
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "axios": "^0.21.1",
+    "bootstrap": "4.5.0",
+    "chart.js": "2.9.3",
+    "currency-formatter": "^1.5.9",
+    "date-fns": "^2.29.3",
+    "electron-pos-printer": "^1.2.0",
+    "electron-store": "^8.1.0",
+    "history": "4.10.1",
+    "jwt-decode": "^3.1.2",
+    "node-sass": "4.14.1",
+    "perfect-scrollbar": "1.5.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "2.9.0",
+    "react-dom": "^18.2.0",
+    "react-google-maps": "9.4.5",
+    "react-icons": "^4.6.0",
+    "react-notification-alert": "0.0.12",
+    "react-redux": "^7.2.2",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "5.0.1",
+    "react-select": "^4.3.0",
+    "react-to-print": "^2.12.6",
+    "reactstrap": "8.9.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "2.3.1",
+    "sound-play": "^1.1.0",
+    "validate.js": "^0.13.1",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "electron": "18.0.0",
+    "electron-builder": "^23.6.0",
+    "gulp": "4.0.2",
+    "gulp-append-prepend": "1.0.8",
+    "redux-devtools-extension": "^2.13.9"
+  }
+}

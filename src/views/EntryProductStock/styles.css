@@ -1,0 +1,15 @@
+.contentTable {
+    padding: 10px;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 25rem;
+}
+.totalEntryProduct {
+    display: flex;
+    justify-content: space-between;
+}
+.buttonAdd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

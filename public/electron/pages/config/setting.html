@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Configurações sistema</title>
+  </head>
+
+  <body class="body-print-setting">
+    <h1>Configurações</h1>
+    <h4>Definir a impressora padrão</h4>
+
+    <div class="content-list-print">
+      <img class="img-print" src="../../assets/icons/print.svg" alt="print" />
+      <!-- Lista de todas impressora do sistema -->
+      <div id='list_printers'></div>
+      
+      <div class="content-option-print">
+        <span id="print-default">Padão: __</span>
+        
+          <div>
+            <input type="checkbox" id="printSilent" name="printSilent">
+            <label for="printSilent"> Impressão silenciosa</label>
+          </div>
+          <div>
+            <input type="checkbox" id="printAuto" name="printAuto">
+            <label for="printAuto"> Impressão automática</label>
+          </div>
+          <div>
+            <input type="checkbox" id="visualPrint" name="visualPrint">
+            <label for="visualPrint"> Visualizar impressão</label>
+          </div>
+          <div>
+            <input type="checkbox" id="autoOrderConfirmation" name="autoOrderConfirmation">
+            <label for="autoOrderConfirmation"> Confirmação Automática pedido</label>
+          </div>
+      </div>
+    </div>
+
+    <h4>Definir a largura da folha</h4>
+      <div class="content-list-width">
+        <img class="img-print" src="../../assets/icons/width.svg" alt="print" />
+          <div id='list_Width'></div>
+      </div>
+
+    <!-- Lista todos audio disponível no sistema -->
+    <h4>Configurar som de alerta</h4>
+    <div id='content_list_audio'>
+      <img class="img-print" src="../../assets/icons/audio.svg" alt="print" />
+
+      <div>
+        <div>
+          <label for="audio">Selecionar audio</label>
+          <select name="audio" id="list_audio"></select>
+          <button id="button-test-sound" class="bnt-testar">TESTAR</button>
+  
+          <input type="checkbox" id="active-audio" name="active-audio">
+          <label for="active-audio"> Ativar audio </label>
+        </div>
+  
+        <div class="content_volume">
+          <label for="volume">Volume</label>
+          <input id="volume" type="range" min="0" max="100">
+        </div>
+      </div>
+
+    </div>
+    
+    
+
+    <div class="group-button">
+      <input id="bnt-salveConfig"  type="button" value="Salvar alterações"/>
+      <button id="bnt-back">Voltar</button>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
