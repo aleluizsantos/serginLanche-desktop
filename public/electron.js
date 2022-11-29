@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const IPCkey = require("./electron/common/constants");
 const path = require("path");
 
@@ -42,6 +43,10 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
+  if (!isDev) {
+    autoUpdater.checkForUpdates();
+  }
+
   // isDev && mainWindow.webContents.openDevTools();
 }
 
@@ -71,6 +76,7 @@ function createChildWindow() {
 
 app.whenReady().then(() => {
   createWindow();
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -124,4 +130,29 @@ ipcMain.on(IPCkey.confirmationMyOrder, (event, data) => {
 
 ipcMain.handle(IPCkey.emitAlertSound, async (event, data) => {
   return soundAlert(data);
+});
+
+autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: "info",
+    buttons: ["Ok"],
+    title: "Atualização do aplicativo",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail: "Uma nova versão está pronta para ser baixada.",
+  };
+  dialog.showMessageBox(dialogOpts, (response) => {});
+});
+
+autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: "info",
+    buttons: ["Restart", "Later"],
+    title: "Atualização do aplicativo",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail:
+      "Uma nova versão foi baixada. Reinicie o aplicativo para aplicar as atualizações.",
+  };
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
+  });
 });

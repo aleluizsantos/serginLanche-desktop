@@ -222,7 +222,7 @@ const Dashboard = (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="fas fa-sync-alt" /> {formatDate(new Date())}
+                  <i className="fas fa-sync-alt" /> 📅 {formatDate(new Date())}
                 </div>
               </CardFooter>
             </Card>
@@ -248,7 +248,8 @@ const Dashboard = (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="far fa-calendar" /> {formatDate(new Date())}
+                  <i className="far fa-calendar" />
+                  📅 {formatDate(new Date())}
                 </div>
               </CardFooter>
             </Card>
@@ -274,7 +275,7 @@ const Dashboard = (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="far fa-clock" /> {formatTime(new Date())}
+                  <i className="far fa-clock" /> 🕜 {formatTime(new Date())}
                 </div>
               </CardFooter>
             </Card>
@@ -300,7 +301,8 @@ const Dashboard = (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="fas fa-sync-alt" /> {formatDate(new Date())}
+                  <i className="fas fa-sync-alt" />
+                  📅 {formatDate(new Date())}
                 </div>
               </CardFooter>
             </Card>
