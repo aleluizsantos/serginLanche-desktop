@@ -17,9 +17,6 @@ export const signIn = (email, password) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: data,
       });
-
-      // dispatch(configSystem());
-
       dispatch({
         type: OPEN_CLOSE,
         payload: data.openClose,

@@ -1,16 +1,7 @@
-import { OPEN_CLOSE, SET_MESSAGE, NEW_ORDERS, CONFIG_SYSTEM } from "./types";
+import { OPEN_CLOSE, SET_MESSAGE, NEW_ORDERS } from "./types";
 
 import { checkNewOrder } from "../../hooks/MyOrders";
-import { getOpenClose, setOpenClose, getConfigSystem } from "../../hooks";
-
-export const configSystem = () => (dispatch) => {
-  return getConfigSystem().then((data) => {
-    dispatch({
-      type: CONFIG_SYSTEM,
-      payload: data,
-    });
-  });
-};
+import { getOpenClose, setOpenClose } from "../../hooks";
 
 export const statusOpenClose = () => (dispatch) => {
   return getOpenClose().then(

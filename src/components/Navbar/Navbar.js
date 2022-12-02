@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 
 import { listRoutes } from "../../routes";
-import { signOut, configSystem } from "../../store/Actions";
+import { signOut } from "../../store/Actions";
 import Setting from "../Setting";
 
 const NavbarHeader = (props) => {
@@ -84,7 +84,6 @@ const NavbarHeader = (props) => {
 
   const handleGotoSetting = () => {
     setOpenSetting(!openSetting);
-    dispatch(configSystem());
   };
 
   const BagdeAmoutMyOrder = () => {
