@@ -218,7 +218,7 @@ const DetailsMyOrder = (props) => {
     dispatch({
       type: CLEAR_MESSAGE,
     });
-    history.goBack();
+    history.push("myorders");
   }
   async function handleAddItem() {
     //Produto a ser adicionado
