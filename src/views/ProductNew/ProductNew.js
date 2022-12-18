@@ -600,7 +600,7 @@ const ProductNew = (props) => {
                                 <img
                                   src={imgCamera}
                                   alt="icon"
-                                  style={{ height: 100 }}
+                                  style={{ height: 100, cursor: "pointer" }}
                                 />
                               </label>
                             )}
@@ -611,6 +611,9 @@ const ProductNew = (props) => {
                               onChange={handleSelectImage}
                             />
                           </div>
+                          <span className="descriptionImage">
+                            Image PNG ou JPEG, dimensão ideal 900×600 px
+                          </span>
                         </Col>
                       </Row>
 

@@ -92,14 +92,14 @@ const Setting = ({ open, onChange }) => {
         <div className="groupSetting">
           <div className="caption">
             <p>Taxa de Entrega</p>
-            <small>Valor mínimo do pedido</small>
+            <small>Valor mínimo do pedido, para taxa de entrega GRATIS.</small>
             <Input
               name="vMinTaxa"
               type="text"
               value={formTaxa.values.vMinTaxa || ""}
               onChange={(event) => handleChangeTaxa(event)}
             />
-            <small>Valor taxa entrega</small>
+            <small>Taxa entrega</small>
             <Input
               name="taxa"
               type="text"

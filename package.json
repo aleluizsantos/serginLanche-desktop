@@ -1,6 +1,6 @@
 {
   "name": "sergin_lanche",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "main": "public/electron.js",
   "description": "Aplicação de delivery desenvolvido pela Lesoftware",
@@ -13,7 +13,7 @@
     "electron": "electron .",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "electron:build:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js -p always"
+    "electron:build:win": "set GH_TOKEN=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 && npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js -p always"
   },
   "build": {
     "copyright": "Copyright @2021-2022 Lesoftware",

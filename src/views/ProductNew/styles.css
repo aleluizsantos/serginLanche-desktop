@@ -11,9 +11,6 @@
 }
 .imgProduct {
     width: 100%;
-    /* border-radius: 20%; */
-    /* vertical-align: middle; */
-    /* margin-right: 10px;  */
 }
 .listAdditionalDefault {
     display: flex;
@@ -56,4 +53,10 @@
 }
 .contentImageProdut .removerImage:hover {
     transform: scale(1.2)
+}
+.descriptionImage {
+    padding: 10px 0; 
+    text-align: center;
+    font-size: small;
+    color: #b4b4b4;
 }

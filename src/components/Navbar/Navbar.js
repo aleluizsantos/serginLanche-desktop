@@ -21,7 +21,7 @@ const NavbarHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
   // const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [color, setColor] = useState("white");
+  const [color, setColor] = useState("dark");
   const sidebarToggle = createRef();
   const notificationAlert = createRef();
   const dispatch = useDispatch();

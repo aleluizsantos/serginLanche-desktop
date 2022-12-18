@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
   //operation
   //CreateOrder
   socket.on("CreateOrder", async (data) => {
-    const { auto, automaticOrderConfirmation } = getDefaultPrinters();
+    const { auto, automaticOrderConfirmation } = await getDefaultPrinters();
     const myOrder = { coupom: data.CreateOrder };
     // Verificar se a impressão esta definida automática
     if (auto) {
@@ -34,7 +34,7 @@ window.addEventListener("DOMContentLoaded", () => {
             ipcRenderer.send(IPCkey.confirmationMyOrder, item.id)
         );
       }
-      // Verifica se esta ativado o som de alerta de recebimento do pedido
+      // Emitir som de alerta conforme configuração de recebimento do pedido
       ipcRenderer.invoke(IPCkey.emitAlertSound);
     }
   });

@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const IPCkey = require("./electron/common/constants");
@@ -106,11 +105,10 @@ ipcMain.handle(IPCkey.servicePrinterPrint, async (event, data) => {
     });
     switch (result) {
       case 0:
-        const configPrint = { preview: true, sound: data.sound };
-        printCoupom(data.coupom, configPrint);
+        printCoupom(data.coupom, { preview: true, sound: data.sound });
         break;
       case 1:
-        printCoupom(data.coupom);
+        printCoupom(data.coupom, { preview: false, sound: data.sound });
         break;
       default:
         break;

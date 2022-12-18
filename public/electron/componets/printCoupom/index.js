@@ -14,17 +14,17 @@ eventEmitter.defaultMaxListeners = 35;
  * @return {Function} PosPrinter
  */
 async function printCoupom(data, configPrint = {}) {
-  const { active } = getSoundActive();
+  const { active } = await getSoundActive();
   const {
     printerName,
     widthPage,
     silent,
     preview,
     automaticOrderConfirmation,
-  } = getDefaultPrinters();
+  } = await getDefaultPrinters();
 
   const activeSound =
-    configPrint.sound === undefined ? active : configPrint.sound;
+    configPrint?.sound === undefined ? active : configPrint?.sound;
 
   const options = {
     preview: preview, // Preview in window or print
@@ -47,7 +47,7 @@ async function printCoupom(data, configPrint = {}) {
           // CONFIRMAÇÃO DO PEDIDO AUTOMÁTICO
           if (automaticOrderConfirmation) {
             if (order.statusRequest_id === 1) {
-              // confirmar apenas se não for visualizar
+              // Confirmar apenas se não for visualizar
               if (!preview) confirmationOrder(order.id);
             }
           }

@@ -85,10 +85,10 @@ const MyOrders = () => {
         )}
         <Row>
           <Col md="12">
-            <Card>
+            <Card style={{ height: "88vh" }}>
               <CardHeader>
                 <div className="SelectStatus">
-                  <CardTitle tag="h5">Meus Pedidos</CardTitle>
+                  <CardTitle tag="h5">🛒Meus Pedidos</CardTitle>
                   <select
                     name="statusOrder"
                     id="statusOrder"
@@ -113,7 +113,7 @@ const MyOrders = () => {
                   </select>
                 </div>
               </CardHeader>
-              <CardBody>
+              <CardBody style={{ overflow: "hidden" }}>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
@@ -203,7 +203,7 @@ const MyOrders = () => {
                 {myOrders.length <= 0 && (
                   <div className="imgOrderEmpty">
                     <img src={imgOrderEmpty} alt="empty" />
-                    <h3>Aguardando novos pedidos</h3>
+                    <h4>Aguardando novos pedidos</h4>
                   </div>
                 )}
               </CardBody>

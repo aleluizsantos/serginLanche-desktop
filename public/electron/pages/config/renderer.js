@@ -5,12 +5,12 @@ const listAudioDefault = [
 let selectedVolumeAudio = 1;
 
 window.addEventListener("DOMContentLoaded", async () => {
-  // const widthPrint = ["140px", "170px", "200px", "250px", "300px"];
   const widthPrint = [
     ["140px", "44 mm"],
     ["170px", "57 mm"],
     ["200px", "58 mm"],
-    ["250px", "78 mm"],
+    ["250px", "65 mm"],
+    ["280px", "77 mm"],
     ["300px", "80 mm"],
   ];
   const listPrinters = document.getElementById("list_printers");
@@ -28,7 +28,13 @@ window.addEventListener("DOMContentLoaded", async () => {
   const activeAudio = document.getElementById("active-audio");
   const bntBack = document.getElementById("bnt-back");
   const bntSalveConfig = document.getElementById("bnt-salveConfig");
+  const selectAudio = document.getElementById("list_audio");
 
+  let selectPrinterName;
+  let selectWidthPage;
+  let selectAudioDefault;
+
+  // Buscar no storage configuração impressora padrão
   const {
     printerName,
     widthPage,
@@ -51,29 +57,24 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // GET: Lista de todas as impressora do sistema do computador
   const printers = await window.indexBridge.servicePrinterList();
+
   // Criar um lista das impressora no Layout
-  // eslint-disable-next-line array-callback-return
-  printers.map((item, index) => {
-    const checked = item.name === printerName ? "checked" : "";
-    listPrinters.innerHTML += `<input ${checked} type="radio" id="printer_${index}" name="printer" value="${item.name}" />
-     <label for="printer_${index}">${item.name}</label><br>`;
-  });
+  for (const print of printers) {
+    const checked = print.name === printerName ? "checked" : "";
+    listPrinters.innerHTML += `<input ${checked} type="radio" id="printer_${print.name}" name="printer" value="${print.name}" /> <label for="printer_${print.name}">${print.name}</label><br>`;
+  }
 
   // Criar um lista das largura no Layout
-  // eslint-disable-next-line array-callback-return
-  widthPrint.map((item, idx) => {
-    const [valuePX, valueMM] = item;
+  for (const wPrint of widthPrint) {
+    const [valuePX, valueMM] = wPrint;
     const checked = valuePX === widthPage ? "checked" : "";
-    listWith.innerHTML += `<input ${checked}  type="radio" id="w_${idx}" name="width-print" value="${valuePX}">
-    <label for="w_${idx}">${valueMM}</label><br>`;
-  });
+    listWith.innerHTML += `<input ${checked}  type="radio" id="w_${valuePX}" name="width-print" value="${valuePX}"> <label for="w_${valuePX}">${valueMM}</label><br>`;
+  }
   // Inserir os audio disponíveis
-  // eslint-disable-next-line array-callback-return
-  listAudioDefault.map((item, idx) => {
-    const selected = item.audio === sound.audio ? "selected" : "";
-    listAudio.innerHTML += `
-      <option id="op_${idx}" ${selected} value="${item.audio}">${item.audio}</option>`;
-  });
+  for (const audio of listAudioDefault) {
+    const selected = audio.audio === sound.audio ? "selected" : "";
+    listAudio.innerHTML += `<option id="op_${audio.audio}" ${selected} value="${audio.audio}">${audio.audio}</option>`;
+  }
 
   // Monitorar a alteração do range do volume
   volumeAudio.addEventListener("change", () => {
@@ -82,11 +83,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Fechar a janela configuração
   bntBack.addEventListener("click", () => window.top.close());
-
-  const selectAudio = document.getElementById("list_audio");
-  let selectPrinterName;
-  let selectWidthPage;
-  let selectAudioDefault;
 
   // Salvar as configurações
   bntSalveConfig.addEventListener("click", () => {
@@ -128,6 +124,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.indexBridge.saveSettingPrinters(dataSettingPrinter);
     window.top.close(); //Fechar a janela
   });
+
   //Clicar no botão testar som
   buttonTestSound.addEventListener("click", async () => {
     selectAudioDefault = selectAudio.options[selectAudio.selectedIndex].value;
@@ -135,6 +132,5 @@ window.addEventListener("DOMContentLoaded", async () => {
     await window.indexBridge
       .emitAlertSound(selectAudioDefault)
       .then(() => (buttonTestSound.innerText = "TESTAR"));
-    // soundActive(selectAudioDefault).then(() => console.log("done"));
   });
 });

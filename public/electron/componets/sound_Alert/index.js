@@ -10,8 +10,8 @@ const pathSound = isDev
   ? path.join(app.getAppPath(), "public/electron", "assets/")
   : path.join(process.resourcesPath, "public/electron/assets/");
 
-const soundAlert = (filename = null) => {
-  const { active, volume, audio } = getSoundActive();
+const soundAlert = async (filename = null) => {
+  const { active, volume, audio } = await getSoundActive();
   const filePath = path.join(pathSound, filename ? filename : audio);
   try {
     return active ? sound.play(filePath, volume) : null;

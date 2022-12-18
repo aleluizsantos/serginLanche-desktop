@@ -34,8 +34,29 @@
     height: 35px;
 }
 .imgOrderEmpty {
+    position: relative;
+    overflow: hidden;
     width: 100%;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+.imgOrderEmpty img {
+    animation: 2s jump infinite ease-in-out alternate-reverse;
+}
+.imgOrderEmpty h4 {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+   
+}
+
+@keyframes jump {
+    from {
+        transform: translateY(15px);
+    }
+    to {
+        transform: translateY(-15px);
+    }
 }

@@ -19,8 +19,8 @@ const default_sound = {
  * GET: confirugação da impressora
  * @returns {object} Retorna um objeto com as configurações da impressora
  */
-function getDefaultPrinters() {
-  const settingPrinters = storage.get("setting-printers");
+async function getDefaultPrinters() {
+  const settingPrinters = await storage.get("setting-printers");
 
   if (settingPrinters) {
     return settingPrinters;
@@ -68,8 +68,8 @@ function saveBounds(bounds) {
  * GET: Configuração do som de alerta
  * @returns {Objeto} Retorna um objeto de configuração do audio :  { active | volume | audio}
  */
-function getSoundActive() {
-  const soundAlert = storage.get("sound-alert");
+async function getSoundActive() {
+  const soundAlert = await storage.get("sound-alert");
   if (soundAlert) return soundAlert;
   else {
     storage.set("sound-alert", default_sound);
