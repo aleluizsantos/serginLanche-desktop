@@ -1,6 +1,6 @@
 {
   "name": "sergin_lanche",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "main": "public/electron.js",
   "description": "Aplicação de delivery desenvolvido pela Lesoftware",
