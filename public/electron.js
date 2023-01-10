@@ -6,7 +6,11 @@ const path = require("path");
 // remover a mensagem Passthrough is not supported, GL is disabled, ANGLE is
 app.disableHardwareAcceleration();
 
-const { getWinSetting, saveBounds } = require("./electron/storage");
+const {
+  getWinSetting,
+  saveBounds,
+  newUpdateApp,
+} = require("./electron/storage");
 const printCoupom = require("./electron/componets/printCoupom");
 const {
   actionNewOrders,
@@ -75,7 +79,6 @@ function createChildWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -130,6 +133,10 @@ ipcMain.handle(IPCkey.emitAlertSound, async (event, data) => {
   return soundAlert(data);
 });
 
+autoUpdater.on("checking-for-update", () => {
+  console.log("Checking for updates...");
+});
+
 autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
   const dialogOpts = {
     type: "info",
@@ -138,7 +145,13 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
     message: process.platform === "win32" ? releaseNotes : releaseName,
     detail: "Uma nova versão está pronta para ser baixada.",
   };
-  dialog.showMessageBox(dialogOpts, (response) => {});
+  dialog.showMessageBox(dialogOpts, (response) => {
+    newUpdateApp(true);
+  });
+});
+
+autoUpdater.on("download-progress", (process) => {
+  console.log(`Progress ${Math.floor(process.percent)}`);
 });
 
 autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
@@ -151,6 +164,11 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
       "Uma nova versão foi baixada. Reinicie o aplicativo para aplicar as atualizações.",
   };
   dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    newUpdateApp(false);
     if (returnValue.response === 0) autoUpdater.quitAndInstall();
   });
+});
+
+autoUpdater.on("error", () => {
+  newUpdateApp(false);
 });

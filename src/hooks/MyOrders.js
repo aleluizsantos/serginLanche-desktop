@@ -63,20 +63,21 @@ export const getItemsMyOrders = async (idMyOrder) => {
 };
 /**
  * ALTERA O STATUS DO PEDIDO
- * @param {Number} idMyOrder Recebe o id da Order para alterar o status do pedido
+ * @param {Object} item Recebe o item de Order para alterar o status do pedido
+ * @param {Number} setStatus set o STATUS, caso seja passado
  * @returns Object {success: boolean, nextState: number, descriptionNextActionRequest: String}
  */
-export const upDateStateMyOrders = async (idMyOrder) => {
+export const upDateStateMyOrders = async (item, setStatus = null) => {
   const { Authorization } = authHeader();
-
+  const nextStage = item.statusRequest_id + 1;
+  const data = {
+    ...item,
+    nextStage: setStatus === null ? nextStage : setStatus,
+  };
   return await api
-    .put(
-      `request/${idMyOrder}`,
-      {},
-      {
-        headers: { Authorization: Authorization },
-      }
-    )
+    .put(`/request`, data, {
+      headers: { Authorization: Authorization },
+    })
     .then((response) => response.data);
 };
 

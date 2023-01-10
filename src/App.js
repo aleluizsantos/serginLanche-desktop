@@ -13,7 +13,11 @@ import {
   CLIENT_REGISTERED,
   NEW_ORDERS,
 } from "./store/Actions/types";
-import { statusOpenClose, getMyOrders } from "./store/Actions";
+import {
+  statusOpenClose,
+  getMyOrders,
+  checkUpdateSystem,
+} from "./store/Actions";
 
 const history = createBrowserHistory();
 
@@ -22,6 +26,7 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
+      dispatch(checkUpdateSystem());
       // Verificar se o estabelecimento esta aberto|fechado
       dispatch(statusOpenClose());
       // Verificar se existe pedidos abertos

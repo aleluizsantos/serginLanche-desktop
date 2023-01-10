@@ -279,7 +279,7 @@ const Product = () => {
                 </div>
               </CardHeader>
               <CardBody>
-                <Table responsive>
+                <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                   <thead className="text-primary">
                     <tr>
                       <th colSpan="2" className="text-center">
@@ -289,7 +289,6 @@ const Product = () => {
                       <th className="text-right">Preço</th>
                       <th>Promoção</th>
                       <th className="text-right">P. Promoção</th>
-                      <th>Estoque</th>
                       <th>Categoria</th>
                       <th>Ações</th>
                     </tr>
@@ -297,12 +296,12 @@ const Product = () => {
                   <tbody>
                     {dataProduct.map((item, idx) => (
                       <tr key={idx}>
-                        <td>
+                        <td align="center">
                           <div className="contentImageName">
                             <object
                               data={item.image_url}
                               type="image/png"
-                              className="imgCategory"
+                              className="avatar"
                             >
                               <img
                                 src={`${url}/uploads/default.jpg`}
@@ -336,7 +335,6 @@ const Product = () => {
                           {BadgePromotion(item.promotion)}
                         </td>
                         <td className="text-right">{item.pricePromotion}</td>
-                        <td className="text-center">{item.inventory}</td>
                         <td className="text-center">{item.category}</td>
                         <td>
                           <div className="groupButton">

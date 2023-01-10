@@ -212,7 +212,7 @@ const UserClient = () => {
               <SearchBar onChange={(value) => handleChangerSearch(value)} />
             </CardHeader>
             <CardBody>
-              <Table responsive>
+              <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                 <thead className="text-primary">
                   <tr>
                     <th>

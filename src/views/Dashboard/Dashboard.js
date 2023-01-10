@@ -326,7 +326,7 @@ const Dashboard = (props) => {
                     className=" nc-icon nc-minimal-left"
                     onClick={decrementWeek}
                   />
-                  <i className="fa fa-ellipsis-h" onClick={currentWeek} />
+                  <i className="nc-icon nc-shop" onClick={currentWeek} />
                   <i
                     className=" nc-icon nc-minimal-right"
                     onClick={incrementWeek}
@@ -398,7 +398,7 @@ const Dashboard = (props) => {
                         <div className="itemCountClient">{idx + 1}</div>
                         <div className="itemClient">
                           <span>{item.name}</span>
-                          <span>{item.address}</span>
+                          {/* <span>{item.address}</span> */}
                         </div>
                         <div className="itemTotalPur">
                           <span>R$ {item.totalPur}</span>

@@ -16,6 +16,7 @@ import {
   DetailsMyOrder as DetailsMyOrderView,
   Users as UserView,
   UserClient as UserClientView,
+  PDV as PdvView,
 } from "./views";
 
 import { clearMessage } from "./store/Actions";
@@ -133,6 +134,12 @@ const Routes = () => {
         component={LoginView}
         layout={MinimalLayout}
         path={"/login"}
+        exact
+      />
+      <RouteWithLayout
+        component={PdvView}
+        layout={MainLayout}
+        path={"/pdv"}
         exact
       />
       <Redirect to="/login" />

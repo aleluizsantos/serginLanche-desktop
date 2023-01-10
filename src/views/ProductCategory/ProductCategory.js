@@ -480,9 +480,9 @@ const ProductCategory = (props) => {
 
   return (
     <div className="content">
-      {/* CATEGORIA */}
       <Row>
-        <Col md="12">
+        {/* CATEGORIA */}
+        <Col className="customCol">
           <Card>
             <CardHeader>
               <CardTitle tag="h4">Categorias de Produtos</CardTitle>
@@ -506,7 +506,7 @@ const ProductCategory = (props) => {
               </div>
             </CardHeader>
             <CardBody>
-              <Table responsive>
+              <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                 <thead className="text-primary">
                   <tr>
                     <th>Image</th>
@@ -518,9 +518,9 @@ const ProductCategory = (props) => {
                 <tbody>
                   {categorys.map((item, idx) => (
                     <tr key={idx}>
-                      <td>
+                      <td align="center">
                         <img
-                          className="imgCategory"
+                          className="avatar"
                           src={item.image_url}
                           alt={item.name}
                         />
@@ -586,10 +586,8 @@ const ProductCategory = (props) => {
             </CardFooter>
           </Card>
         </Col>
-      </Row>
-      {/* TIPO DE ADICIONAIS */}
-      <Row>
-        <Col md="12">
+        {/* TIPO DE ADICIONAIS */}
+        <Col className="customCol">
           <Card>
             <CardHeader>
               <CardTitle tag="h4">Tipos de Adicionais</CardTitle>
@@ -608,7 +606,7 @@ const ProductCategory = (props) => {
               </div>
             </CardHeader>
             <CardBody>
-              <Table responsive>
+              <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                 <thead className="text-primary">
                   <tr>
                     <th style={{ textAlign: "center" }}>Qtd escolha</th>
@@ -744,7 +742,7 @@ const ProductCategory = (props) => {
                 </div>
               </CardHeader>
               <CardBody>
-                <Table responsive>
+                <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                   <thead className="text-primary">
                     <tr>
                       <th>Tipos</th>

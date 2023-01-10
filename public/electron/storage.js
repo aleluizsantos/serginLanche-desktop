@@ -126,6 +126,18 @@ function saveAddressStore(addrStore) {
   storage.set("address-store", addrStore);
 }
 
+async function hasUpdateApp() {
+  const update = await storage.get("update-app");
+  if (update) return update;
+  else {
+    return false;
+  }
+}
+
+function newUpdateApp(value = false) {
+  storage.set("update-app", value);
+}
+
 module.exports = {
   getWinSetting,
   saveBounds,
@@ -137,4 +149,6 @@ module.exports = {
   getToken,
   getAddressStore,
   saveAddressStore,
+  hasUpdateApp,
+  newUpdateApp,
 };

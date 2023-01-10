@@ -1,0 +1,29 @@
+.container__notification__dowload {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(54,54,54,.117);
+    border-radius: 20px;
+    width: 100px;
+    height: 100px;
+    bottom: 20px;
+    right:  20px;
+    z-index: 1;
+}
+.container__notification__dowload img {
+    width: 50%;
+    animation: oscillate 2s infinite ease-in-out alternate-reverse;
+}
+
+.container__notification__dowload span {
+    font-weight: bold;
+    font-size: 0.7rem;
+    margin-top: 10px;
+}
+
+@keyframes oscillate {
+    from {transform: translateY(0px)}
+    to {transform: translateY(10px)}
+}

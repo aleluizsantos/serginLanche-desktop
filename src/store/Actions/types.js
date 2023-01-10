@@ -16,5 +16,5 @@ export const CLIENT_ONLINE = "CLIENT_ONLINE";
 export const CLIENT_REGISTERED = "CLIENT_REGISTERED";
 export const UPDATE = "UPDATE";
 
-// Configuração do sistema
-export const CONFIG_SYSTEM = "CONFIG_SYSTEM";
+// Atualização do sistema
+export const UPDATESYSTEM = "UPDATESYSTEM";

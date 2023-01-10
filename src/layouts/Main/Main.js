@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import { Navbar, Footer, Sidebar } from "../../components";
 import { listRoutes } from "../../routes";
+import NotificationDownload from "../../components/NotificationDownload";
 
 let ps;
 
@@ -37,6 +38,7 @@ const Main = (props) => {
       />
       <div className="main-panel" ref={mainPanel}>
         <Navbar {...props} />
+        <NotificationDownload />
         {children}
         <Footer fluid />
       </div>

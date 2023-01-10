@@ -92,6 +92,22 @@ const Sidebar = (props) => {
             );
           })}
         </Nav>
+        <div
+          style={{
+            display: "flex",
+            justifyItems: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            position: "fixed",
+            bottom: 20,
+            width: 260,
+          }}
+        >
+          <span style={{ fontSize: 12, color: "#a9a9a9" }}>
+            Desenvolvido por Lesoftware
+          </span>
+          <span style={{ fontSize: 12, color: "#a9a9a9" }}>version 1.0.6</span>
+        </div>
       </div>
     </div>
   );

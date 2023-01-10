@@ -9,6 +9,8 @@ const {
   saveToken,
   getAddressStore,
   saveAddressStore,
+  hasUpdateApp,
+  newUpdateApp,
 } = require("./electron/storage");
 
 const socket = require("./electron/service/socket");
@@ -20,6 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
   socket.on("CreateOrder", async (data) => {
     const { auto, automaticOrderConfirmation } = await getDefaultPrinters();
     const myOrder = { coupom: data.CreateOrder };
+
     // Verificar se a impressão esta definida automática
     if (auto) {
       ipcRenderer.invoke(IPCkey.servicePrinterPrint, myOrder);
@@ -31,14 +34,13 @@ window.addEventListener("DOMContentLoaded", () => {
         coupom.map(
           (item) =>
             item.statusRequest_id === 1 &&
-            ipcRenderer.send(IPCkey.confirmationMyOrder, item.id)
+            ipcRenderer.send(IPCkey.confirmationMyOrder, item)
         );
       }
       // Emitir som de alerta conforme configuração de recebimento do pedido
       ipcRenderer.invoke(IPCkey.emitAlertSound);
     }
   });
-
   // Checar se tem endereço do estabelecimento no STORAGE
   checkAddressStore();
 });
@@ -60,6 +62,7 @@ let indexBridge = {
   saveToken: (token) => saveToken(token),
   getAddressStore: async () => getAddressStore(),
   saveAddressStore: async (address) => saveAddressStore(address),
+  hasUpdateApp: async () => hasUpdateApp(),
 };
 
 contextBridge.exposeInMainWorld("indexBridge", indexBridge);

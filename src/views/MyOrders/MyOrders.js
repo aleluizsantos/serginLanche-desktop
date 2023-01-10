@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { TfiTag, TfiPrinter } from "react-icons/tfi";
+import { TfiTag, TfiPrinter, TfiControlForward } from "react-icons/tfi";
 import { useHistory } from "react-router-dom";
 // reactstrap components
 import {
@@ -13,6 +13,10 @@ import {
   Col,
   Button,
   Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 import "./styles.css";
@@ -21,7 +25,11 @@ import imgStore from "../../assets/img/store.png";
 import imgOrderEmpty from "../../assets/img/orderEmpty.png";
 
 import { formatDateTime } from "../../hooks/format";
-import { getOrders, typeStatusMyOrders } from "../../hooks/MyOrders";
+import {
+  getOrders,
+  typeStatusMyOrders,
+  upDateStateMyOrders,
+} from "../../hooks/MyOrders";
 import { NEW_ORDERS } from "../../store/Actions/types";
 
 const MyOrders = () => {
@@ -37,6 +45,49 @@ const MyOrders = () => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [update]);
+
+  const MyDropdown = (myOrder) => {
+    const isFinally = myOrder.item.statusRequest_id === 6 ? false : true;
+    const statusRequest = myOrder.item.statusRequest;
+    return (
+      <div style={{ overflow: "auto" }}>
+        <UncontrolledDropdown group>
+          {isFinally && (
+            <Button
+              onClick={() => upDateStateMyOrders(myOrder.item)}
+              size="sm"
+              title="Próximo >>"
+            >
+              <TfiControlForward />
+            </Button>
+          )}
+          <DropdownToggle
+            caret
+            size="sm"
+            color="warning"
+            title="Escolha o estágio"
+          />
+          <DropdownMenu container="body" style={{ border: "1px solid #000" }}>
+            <DropdownItem onClick={() => upDateStateMyOrders(myOrder.item, 1)}>
+              {statusRequest === "Em Analise" ? "✅" : "🔲"} Em Análise
+            </DropdownItem>
+            <DropdownItem onClick={() => upDateStateMyOrders(myOrder.item, 2)}>
+              {statusRequest === "Em Preparação" ? "✅" : "🔲"}Em Preparação
+            </DropdownItem>
+            <DropdownItem onClick={() => upDateStateMyOrders(myOrder.item, 3)}>
+              {statusRequest === "Rota entrega" ? "✅" : "🔲"}Rota de Entrega
+            </DropdownItem>
+            <DropdownItem onClick={() => upDateStateMyOrders(myOrder.item, 4)}>
+              {statusRequest === "Retirada Loja" ? "✅" : "🔲"}Retirar na Loja
+            </DropdownItem>
+            <DropdownItem onClick={() => upDateStateMyOrders(myOrder.item, 6)}>
+              {statusRequest === "Finalizado" ? "✅" : "🔲"}Finalizado
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+    );
+  };
 
   function listMyOrders(status = typeStatusMyOrders.ACTIVE) {
     setIsloading(true);
@@ -85,7 +136,7 @@ const MyOrders = () => {
         )}
         <Row>
           <Col md="12">
-            <Card style={{ height: "88vh" }}>
+            <Card style={{ minHeight: "88vh" }}>
               <CardHeader>
                 <div className="SelectStatus">
                   <CardTitle tag="h5">🛒Meus Pedidos</CardTitle>
@@ -112,9 +163,14 @@ const MyOrders = () => {
                     </option>
                   </select>
                 </div>
+                {/* <div>
+                  <Button onClick={() => history.push("pdv")}>
+                    Pedido Balcão
+                  </Button>
+                </div> */}
               </CardHeader>
-              <CardBody style={{ overflow: "hidden" }}>
-                <Table responsive>
+              <CardBody style={{ width: "100%" }}>
+                <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                   <thead className="text-primary">
                     <tr>
                       <th>Tipo</th>
@@ -167,7 +223,15 @@ const MyOrders = () => {
                             <span>{item.statusRequest}</span>
                           </div>
                         </td>
-                        <td className="text-right">{item.totalPurchase}</td>
+                        <td className="text-right">
+                          <strong>{item.totalPurchase} </strong>
+                          <img
+                            src={item.image}
+                            alt="icone"
+                            title={item.payment}
+                            style={{ width: "1.6rem" }}
+                          />
+                        </td>
                         <td>{item.phone}</td>
                         <td>
                           {item.city}/{item.uf}
@@ -175,18 +239,27 @@ const MyOrders = () => {
                         <td className="text-center">
                           <div className="groupButton">
                             <Button
-                              className="btn-icon"
-                              outline
-                              color="default"
+                              style={{ position: "relative" }}
                               size="sm"
                               onClick={() => printCoupom(item)}
                               title="Imprimir Cupom"
                             >
+                              {item.print && (
+                                <span
+                                  title="Cupom já foi impresso"
+                                  style={{
+                                    position: "absolute",
+                                    top: -6,
+                                    left: -6,
+                                  }}
+                                >
+                                  🟢
+                                </span>
+                              )}
                               <TfiPrinter />
                             </Button>
+
                             <Button
-                              className="btn-icon"
-                              color="default"
                               outline
                               size="sm"
                               onClick={() => goToDetailsMyOrders(item)}
@@ -194,6 +267,10 @@ const MyOrders = () => {
                             >
                               <TfiTag />
                             </Button>
+
+                            {item.statusRequest_id !== 6 && (
+                              <MyDropdown item={item} />
+                            )}
                           </div>
                         </td>
                       </tr>

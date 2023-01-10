@@ -1,4 +1,4 @@
-import { OPEN_CLOSE, SET_MESSAGE, NEW_ORDERS } from "./types";
+import { OPEN_CLOSE, SET_MESSAGE, NEW_ORDERS, UPDATESYSTEM } from "./types";
 
 import { checkNewOrder } from "../../hooks/MyOrders";
 import { getOpenClose, setOpenClose } from "../../hooks";
@@ -53,4 +53,12 @@ export const getMyOrders = () => async (dispatch) => {
     payload: newOrder,
   });
   return newOrder;
+};
+
+export const checkUpdateSystem = () => async (dispatch) => {
+  const update = await window.indexBridge.hasUpdateApp();
+  dispatch({
+    type: UPDATESYSTEM,
+    payload: update,
+  });
 };

@@ -112,7 +112,7 @@
   margin-left: 12px;
 }
 
-@media all and (min-width: 992px) {
+@media all and (min-width: 1326px) {
   .sidebar .nav > li.active-pro {
     position: absolute;
     width: 100%;
@@ -381,8 +381,12 @@
   margin-top: 2px;
 }
 .contentImageName {
-  display: flex;
-  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgb(211, 157, 41);
+  height: 60px;
+  width: 60px;
+
 }
 table.table tr th {
   background: #f2f2f2;
@@ -452,7 +456,10 @@ table.table .avatar {
 .groupButton {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+}
+.groupButton >button {
+  margin: 0 5px !important;
 }
 .status {
   font-size: 30px;

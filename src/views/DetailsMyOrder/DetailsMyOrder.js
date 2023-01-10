@@ -142,7 +142,7 @@ const DetailsMyOrder = (props) => {
       //Checar se foi alterado as quantidade dos item
       if (changeAmount.isEdit) salveChangeItem();
 
-      upDateStateMyOrders(myOrder.id).then((response) => {
+      upDateStateMyOrders(myOrder).then((response) => {
         // Retirar o pedido novo estado global
         newOrders.length > 0 &&
           dispatch({
@@ -165,6 +165,7 @@ const DetailsMyOrder = (props) => {
       currentPorcent < 100 && setCurrentPorcent(currentPorcent + 25);
     }
   }
+
   //Deletar o pedido
   function handleRemoverOrder() {
     if (myOrder.statusRequest_id <= typeDelivery.EM_PREPARAÇÃO) {
@@ -182,6 +183,7 @@ const DetailsMyOrder = (props) => {
       });
     }
   }
+
   // Remover item do pedido
   function handleRemoverItem() {
     const { id, request_id } = itemSelected;
@@ -194,6 +196,7 @@ const DetailsMyOrder = (props) => {
         setIsModalRemoveItem(false);
       });
   }
+
   // Buscar lista de Produto conforme parameto passado
   const searchProduct = async (inputValue) => {
     const response = await getProductSearch(inputValue);
@@ -211,15 +214,18 @@ const DetailsMyOrder = (props) => {
     });
     return dataProducts;
   };
+
   function handleChangesAmount(amount) {
     setamountItemAdd(amount.replace(",", "."));
   }
+
   function handleGoBack() {
     dispatch({
       type: CLEAR_MESSAGE,
     });
     history.push("myorders");
   }
+
   async function handleAddItem() {
     //Produto a ser adicionado
     const amount = amountItemAdd;
@@ -273,6 +279,7 @@ const DetailsMyOrder = (props) => {
       });
     });
   }
+
   function handleMessageWhatsapp(message) {
     // window.location.href = `whatsapp://send/?phone=55${phoneWhatsapp}&text=${message}&app_absent=0`;
     // window.open(
@@ -281,10 +288,12 @@ const DetailsMyOrder = (props) => {
     // );
     window.location.href = `whatsapp://send/?phone=55${phoneWhatsapp}&text=${message}`;
   }
+
   function validateNumber(value) {
     const isNum = Number.isFinite(Number(value));
     return isNum;
   }
+
   function handleEditAmountItem(event) {
     event.persist();
 
@@ -381,6 +390,7 @@ const DetailsMyOrder = (props) => {
       isEdit: false,
     });
   }
+
   async function printCoupom() {
     const objectWithConfigPrint = {
       coupom: [myOrder],
@@ -471,8 +481,10 @@ const DetailsMyOrder = (props) => {
 
               <div className="shapePayment">
                 <div>
-                  <strong>Forma de Pagamento: </strong>
-                  <span>{state.payment}</span>
+                  <strong style={{ fontSize: 18 }}>Forma de Pagamento: </strong>
+                  <span>
+                    <img src={state.image} alt="icone" /> {state.payment}
+                  </span>
                 </div>
                 {state.payment_id === 1 && (
                   <div>
@@ -517,7 +529,7 @@ const DetailsMyOrder = (props) => {
               </div>
 
               <div className="contentItemOrder">
-                <Table responsive>
+                <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                   <thead className="text-primary">
                     <tr>
                       <th>#</th>

@@ -4,6 +4,7 @@ import {
   CLIENT_ONLINE,
   CLIENT_REGISTERED,
   UPDATE,
+  UPDATESYSTEM,
 } from "../Actions/types";
 
 const openClose = localStorage.getItem("_openClosepicanha&cia");
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   clientsOnline: 0,
   clientsRegistered: totalUsers !== null ? totalUsers : 0,
   update: {},
+  updateSystem: false,
 };
 
 export default function Notificate(state = INITIAL_STATE, action) {
@@ -30,6 +32,8 @@ export default function Notificate(state = INITIAL_STATE, action) {
       return { ...state, clientsRegistered: payload };
     case UPDATE:
       return { ...state, update: payload };
+    case UPDATESYSTEM:
+      return { ...state, updateSystem: payload };
     default:
       return state;
   }

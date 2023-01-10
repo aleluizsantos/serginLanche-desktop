@@ -11,6 +11,7 @@ const { getAddressStore } = require("../../storage");
 const layoutCoupom = async (order) => {
   const { address, number, neighborhood, city, uf, phone } =
     await getAddressStore();
+
   const data = [
     {
       type: "image",
@@ -278,11 +279,9 @@ const layoutCoupom = async (order) => {
     {
       type: "barCode", // Do you think the result is ugly? Me too. Try use an image instead...
       value: addZero(order.id),
-
+      displayValue: false, // Exibir valor abaixo do codigo
       height: 40,
       width: 2,
-      displayValue: false, // Exibir valor abaixo do codigo
-      fontsize: 12,
     },
     {
       type: "text", // 'text' | 'barCode' | 'qrCode' | 'image' | 'table'
@@ -329,7 +328,9 @@ async function createItemOrder(itemOrder) {
       },
       {
         type: "text",
-        value: `${order.amount} x ${order.price}`,
+        value: `${order.amount} x ${numberFormat(
+          Number(order.price) + Number(order.totalAdditional)
+        )}`,
         style: {
           fontSize: "14px",
           fontFamily: "sans-serif",

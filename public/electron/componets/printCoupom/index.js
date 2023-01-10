@@ -4,7 +4,10 @@ const { PosPrinter } = require("electron-pos-printer");
 const { getDefaultPrinters, getSoundActive } = require("../../storage");
 const soundAlert = require("../sound_Alert");
 const LayoutCoupom = require("./layoutCoupom");
-const { confirmationOrder } = require("../../common/actionNewOrders");
+const {
+  confirmationOrder,
+  couponWasPrinted,
+} = require("../../common/actionNewOrders");
 
 eventEmitter.defaultMaxListeners = 35;
 /**
@@ -39,16 +42,20 @@ async function printCoupom(data, configPrint = {}) {
 
   data.map(async (order) => {
     const layoutCoupom = await LayoutCoupom(order);
+    await print(order, layoutCoupom);
+  });
 
+  async function print(order, layoutCoupom) {
     if (printerName && widthPage && layoutCoupom) {
       PosPrinter.print(layoutCoupom, options)
         .then(() => {
           activeSound && soundAlert();
+          if (!options.preview) couponWasPrinted(order.id);
           // CONFIRMAÇÃO DO PEDIDO AUTOMÁTICO
           if (automaticOrderConfirmation) {
             if (order.statusRequest_id === 1) {
               // Confirmar apenas se não for visualizar
-              if (!preview) confirmationOrder(order.id);
+              if (!preview) confirmationOrder(order);
             }
           }
         })
@@ -56,7 +63,7 @@ async function printCoupom(data, configPrint = {}) {
           throw new Error(error);
         });
     }
-  });
+  }
 }
 
 module.exports = printCoupom;

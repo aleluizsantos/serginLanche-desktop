@@ -540,6 +540,14 @@ const ProductNew = (props) => {
                                   <option value={false}>Não</option>
                                   <option value={true}>Sim</option>
                                 </Input>
+                                {formState.values.promotion && (
+                                  <FormGroup check>
+                                    <Label check>
+                                      <Input type="checkbox" /> Enviar
+                                      notificação para os clientes
+                                    </Label>
+                                  </FormGroup>
+                                )}
                               </FormGroup>
                             </Col>
                             <Col className="pl-3" md="4">
@@ -659,7 +667,10 @@ const ProductNew = (props) => {
                           </Button>{" "}
                         </div>
                         {listAddicionais.length > 0 ? (
-                          <Table responsive>
+                          <Table
+                            responsive
+                            style={{ border: "solid 1px #a9a9a9" }}
+                          >
                             <thead>
                               <tr>
                                 <th style={{ textAlign: "center" }}>#</th>
@@ -754,7 +765,13 @@ const ProductNew = (props) => {
         confirmed={() => setIsModalAdditionalDefault(!isModalAdditionalDefault)}
       >
         <div className="contentAddAdditinalDefault">
-          <Table striped bordered hover responsive>
+          <Table
+            striped
+            bordered
+            hover
+            responsive
+            style={{ border: "solid 1px #a9a9a9" }}
+          >
             <thead>
               <tr>
                 <th style={{ textAlign: "center" }}>#</th>
