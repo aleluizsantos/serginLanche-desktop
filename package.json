@@ -13,16 +13,16 @@
     "electron": "electron .",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "electron:build:win": "set GH_TOKEN=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 && npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js -p always"
+    "electron:build:win": "set GH_TOKEN=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 && npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js -p always"
   },
   "build": {
     "copyright": "Copyright @2021-2022 Lesoftware",
-    "buildVersion": "1",
+    "buildVersion": "1.0.7",
     "publish": {
       "provider": "github",
       "owner": "aleluizsantos",
       "repo": "serginLanche-desktop",
-      "private": false
+      "private": true
     },
     "appId": "com.lesoftware.serginlanche",
     "productName": "Sergin Lanche",

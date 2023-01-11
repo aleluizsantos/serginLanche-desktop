@@ -9,6 +9,7 @@ import logo from "../../logo.png";
 import { upgradeOpenClose } from "../../store/Actions";
 import { CLEAR_MESSAGE } from "../../store/Actions/types";
 import Swift from "../Switch";
+import configPackage from "../../../package.json";
 
 let ps;
 
@@ -106,7 +107,9 @@ const Sidebar = (props) => {
           <span style={{ fontSize: 12, color: "#a9a9a9" }}>
             Desenvolvido por Lesoftware
           </span>
-          <span style={{ fontSize: 12, color: "#a9a9a9" }}>version 1.0.6</span>
+          <span style={{ fontSize: 12, color: "#a9a9a9" }}>
+            versão {configPackage.version}
+          </span>
         </div>
       </div>
     </div>
