@@ -3,7 +3,8 @@ const { autoUpdater } = require("electron-updater");
 const IPCkey = require("./electron/common/constants");
 const path = require("path");
 
-// remover a mensagem Passthrough is not supported, GL is disabled, ANGLE is
+// remover a mensagem Passthrough is
+// not supported, GL is disabled, ANGLE is
 app.disableHardwareAcceleration();
 
 const {
@@ -11,12 +12,15 @@ const {
   saveBounds,
   newUpdateApp,
 } = require("./electron/storage");
-const printCoupom = require("./electron/componets/printCoupom");
+
 const {
   actionNewOrders,
   confirmationOrder,
 } = require("./electron/common/actionNewOrders");
+
 const soundAlert = require("./electron/componets/sound_Alert");
+const printCoupom = require("./electron/componets/printCoupom");
+
 const iconApp = path.join(__dirname, "electron", "assets", "logo256x256.png");
 
 const isDev = !app.isPackaged;
@@ -145,9 +149,8 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
     message: process.platform === "win32" ? releaseNotes : releaseName,
     detail: "Uma nova versão está pronta para ser baixada.",
   };
-  dialog.showMessageBox(dialogOpts, (response) => {
-    newUpdateApp(true);
-  });
+
+  dialog.showMessageBox(dialogOpts, () => newUpdateApp(true));
 });
 
 autoUpdater.on("download-progress", (process) => {

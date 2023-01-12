@@ -1,2 +1,6 @@
-export const url = "http://18.230.188.137:3333";
-// export const url = "http://localhost:3333";
+const base_url =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_HOST_URL_DEVELOPMENT
+    : process.env.REACT_APP_HOST_URL;
+
+export const url = base_url;
