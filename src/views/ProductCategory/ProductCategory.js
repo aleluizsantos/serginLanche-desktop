@@ -486,6 +486,7 @@ const ProductCategory = (props) => {
           <Card>
             <CardHeader>
               <CardTitle tag="h4">Categorias de Produtos</CardTitle>
+              <Label>O produtos são agrupados conforme as categorias</Label>
               <div>
                 <Button
                   className="btn"

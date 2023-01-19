@@ -10,7 +10,6 @@ const {
   getAddressStore,
   saveAddressStore,
   hasUpdateApp,
-  newUpdateApp,
 } = require("./electron/storage");
 
 const socket = require("./electron/service/socket");
