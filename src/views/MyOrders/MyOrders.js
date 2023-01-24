@@ -140,6 +140,12 @@ const MyOrders = () => {
               <CardHeader>
                 <div className="SelectStatus">
                   <CardTitle tag="h5">🛒Meus Pedidos</CardTitle>
+                  <div>
+                    <Button>Telefone/Balcão</Button>
+                    <Button onClick={() => history.push("tables")}>
+                      Atendimento Mesa
+                    </Button>
+                  </div>
                   <select
                     name="statusOrder"
                     id="statusOrder"

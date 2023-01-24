@@ -1,0 +1,60 @@
+.status-table {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #f3f3f3;
+}
+
+/* STYLES COMMADS */
+.content-commads {
+    background: rgb(236, 236, 236);
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+    
+}
+    .content-commads:hover {
+        transform: scale(1.02);
+    }
+    .content-commads .commads-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .content-commads .commads-title span:nth-child(1) {
+        font-weight: bold;
+    }
+    .content-commads .commads-client {
+        display: flex;
+        justify-content: space-between;
+    }
+    .content-commads .commads-client span:nth-child(2) {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+/* ITEMS DA COMANDA */
+.content-item-commad {
+    border-top: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
+    padding: 10px 0;
+}
+    .content-item-commad .item-commad {
+        display: flex;
+        justify-content: space-between;
+    }
+    .content-item-commad .item-commad span:last-child {
+        font-weight: bold;
+        font-size: 1.05rem;
+    }
+    .content-item-commad .item-additional span:last-child {
+        position: absolute;
+        right: 40%;
+    }
+    .close {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+    }

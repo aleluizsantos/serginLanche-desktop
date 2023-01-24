@@ -1,9 +1,6 @@
 const io = require("socket.io-client");
 
-const host =
-  process.env.NODE_ENV === "development"
-    ? process.env.REACT_APP_HOST_URL_DEVELOPMENT
-    : process.env.REACT_APP_HOST_URL;
+const host = "http://localhost:3333";
 
 const socket = io(host, {
   transports: ["websocket"],

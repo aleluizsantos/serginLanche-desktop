@@ -93,7 +93,7 @@ export const getProductSearch = async (search, pageCurrent = 1) => {
  * @param {string} categorysId Recebe uma string de id das categorys separadas por
  * virgula por exemplo: 1,5,6
  */
-export const getCategoryProduct = async (categorysId) => {
+export const getProductCategory = async (categorysId) => {
   const { Authorization } = authHeader();
   return await api
     .get("product", {
@@ -132,4 +132,12 @@ export const getProductGroupCategory = async () => {
     .then((response) => {
       return response.data;
     });
+};
+
+export const getCategory = async () => {
+  try {
+    return await api.get("category").then((response) => response.data);
+  } catch (error) {
+    console.log(error.message);
+  }
 };

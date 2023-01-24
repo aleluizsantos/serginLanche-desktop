@@ -17,6 +17,8 @@ import {
   Users as UserView,
   UserClient as UserClientView,
   PDV as PdvView,
+  MyTables as MyTablesView,
+  TableDetails as TableDetailsView,
 } from "./views";
 
 import { clearMessage } from "./store/Actions";
@@ -140,6 +142,18 @@ const Routes = () => {
         component={PdvView}
         layout={MainLayout}
         path={"/pdv"}
+        exact
+      />
+      <RouteWithLayout
+        component={MyTablesView}
+        layout={MainLayout}
+        path={"/tables"}
+        exact
+      />
+      <RouteWithLayout
+        component={TableDetailsView}
+        layout={MainLayout}
+        path={"/tablesDetails"}
         exact
       />
       <Redirect to="/login" />

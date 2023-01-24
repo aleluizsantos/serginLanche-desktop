@@ -1,9 +1,6 @@
 const axios = require("axios");
 
-const host =
-  process.env.NODE_ENV === "development"
-    ? process.env.REACT_APP_HOST_URL_DEVELOPMENT
-    : process.env.REACT_APP_HOST_URL;
+const host = "http://localhost:3333";
 
 const api = axios.create({
   baseURL: host,

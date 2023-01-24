@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import validade from "validate.js";
+import validate from "validate.js";
 import {
   Card,
   CardHeader,
@@ -183,13 +183,13 @@ const ProductCategory = (props) => {
     //Selecionar o tipo de formulário para Validação dos DADOS
     switch (formState.typeForm) {
       case typeForm.CATEGORY:
-        errors = validade(dataForm.values, schemaCategory);
+        errors = validate(dataForm.values, schemaCategory);
         break;
       case typeForm.TYPE_ADDITIONAL:
-        errors = validade(dataForm.values, schemaTypeAdditional);
+        errors = validate(dataForm.values, schemaTypeAdditional);
         break;
       case typeForm.ADDITIONAL:
-        errors = validade(dataForm.values, schemaAdditional);
+        errors = validate(dataForm.values, schemaAdditional);
         break;
       default:
         break;

@@ -54,13 +54,15 @@ const User = () => {
   const [formStatePass, setFormStatePass] = useState(typeForm);
 
   useEffect(() => {
-    getAddressStore().then((response) => {
-      setFormAddressStore({
-        ...formAddressStore,
-        values: response[0],
+    const fetchAddressStore = async () => {
+      await getAddressStore().then((response) => {
+        setFormAddressStore({
+          ...formAddressStore,
+          values: response,
+        });
       });
-    });
-    // eslint-disable-next-line
+    };
+    fetchAddressStore();
   }, []);
 
   // Criado as regras de validação de password

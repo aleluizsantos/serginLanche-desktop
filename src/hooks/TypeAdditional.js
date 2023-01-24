@@ -11,6 +11,7 @@ export const getTypeAdditional = async () => {
     })
     .then((response) => response.data);
 };
+
 export const deleteTypeAdditional = async (idTypeAdditional) => {
   const { Authorization } = authHeader();
   return await api
@@ -19,6 +20,7 @@ export const deleteTypeAdditional = async (idTypeAdditional) => {
     })
     .then((response) => response.data);
 };
+
 export const createTypeAdditional = async (typeAdditional) => {
   const { Authorization } = authHeader();
   return await api
@@ -27,6 +29,7 @@ export const createTypeAdditional = async (typeAdditional) => {
     })
     .then((response) => response.data);
 };
+
 export const updateTypeAdditional = async (typeAdditional) => {
   const { Authorization } = authHeader();
   return await api
@@ -44,6 +47,7 @@ export const getAdditional = async (idTypeAdditional) => {
     })
     .then((response) => response.data);
 };
+
 export const createAdditional = async (additional) => {
   const { Authorization } = authHeader();
   return await api
@@ -52,6 +56,7 @@ export const createAdditional = async (additional) => {
     })
     .then((response) => response.data);
 };
+
 export const updateAdditional = async (additional) => {
   const { Authorization } = authHeader();
   return await api
@@ -60,6 +65,7 @@ export const updateAdditional = async (additional) => {
     })
     .then((response) => response.data);
 };
+
 export const deleteAdditional = async (idAdditional) => {
   const { Authorization } = authHeader();
   return await api

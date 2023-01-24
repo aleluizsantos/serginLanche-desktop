@@ -14,3 +14,4 @@ export { default as Setting } from "./Setting";
 export { default as Additional } from "./Additional";
 export { default as Graphic } from "./Graphic";
 export { default as NotificationDwonload } from "./NotificationDownload";
+export { default as MyTables } from "./MyTables.js";

@@ -9,8 +9,10 @@ export default function ConfigSystem() {
       <div className="groupSetting">
         <div className="caption">
           <p>Redefinir preferências</p>
-          <small>Você pode definir suas preferencia do sistema.</small>
-          <Button color="secondary" onClick={handleOpenSettingConfig}>
+          <small>
+            Você pode definir suas preferencia do sistema de impressora e som
+          </small>
+          <Button color="info" onClick={handleOpenSettingConfig}>
             Preferências...
           </Button>
         </div>

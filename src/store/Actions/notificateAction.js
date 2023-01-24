@@ -1,7 +1,13 @@
-import { OPEN_CLOSE, SET_MESSAGE, NEW_ORDERS, UPDATESYSTEM } from "./types";
+import {
+  OPEN_CLOSE,
+  SET_MESSAGE,
+  NEW_ORDERS,
+  UPDATESYSTEM,
+  AUTO_OPEN_CLOSE,
+} from "./types";
 
 import { checkNewOrder } from "../../hooks/MyOrders";
-import { getOpenClose, setOpenClose } from "../../hooks";
+import { getOpenClose, setOpenClose, saveActiveOpenClose } from "../../hooks";
 
 export const statusOpenClose = () => (dispatch) => {
   return getOpenClose().then(
@@ -44,6 +50,24 @@ export const upgradeOpenClose = () => (dispatch) => {
       });
     }
   );
+};
+
+export const activeAutoOpenClose = () => async (dispatch) => {
+  const autoOpenClose = localStorage.getItem("_auto-open-close");
+  let payload = !Boolean(Number(autoOpenClose));
+  localStorage.setItem("_auto-open-close", Number(payload));
+
+  saveActiveOpenClose(payload).then((result) => {
+    dispatch({
+      type: SET_MESSAGE,
+      payload: result.message,
+    });
+  });
+
+  dispatch({
+    type: AUTO_OPEN_CLOSE,
+    payload: payload,
+  });
 };
 
 export const getMyOrders = () => async (dispatch) => {

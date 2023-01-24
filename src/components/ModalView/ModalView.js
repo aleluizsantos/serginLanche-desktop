@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
 
-const ModalView = (props) => {
-  const { title, modal, toggle, children, confirmed, size } = props;
+const ModalView = ({
+  title,
+  modal = false,
+  toggle,
+  children,
+  confirmed,
+  size,
+}) => {
   const [backdrop] = useState("static");
   const [keyboard] = useState(true);
 
