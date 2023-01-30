@@ -69,10 +69,17 @@ export const getItemsMyOrders = async (idMyOrder) => {
  */
 export const upDateStateMyOrders = async (item, setStatus = null) => {
   const { Authorization } = authHeader();
-  const nextStage = item.statusRequest_id + 1;
+  let nextStage = item.statusRequest_id + 1;
+  // Verificar se o tipo de delivery é ATENDIMENTO MESA
+  if (item.deliveryType_id === 3) {
+    nextStage = 7;
+  } else {
+    nextStage = setStatus === null ? nextStage : setStatus;
+  }
+
   const data = {
     ...item,
-    nextStage: setStatus === null ? nextStage : setStatus,
+    nextStage: nextStage,
   };
   return await api
     .put(`/request`, data, {
@@ -135,4 +142,80 @@ export const changeItemMyOrder = async (itemChange) => {
       headers: { Authorization: Authorization },
     })
     .then((response) => response.data);
+};
+
+/**
+ * CRIA UM PEDIDO NOVO
+ * @param {object} order Objeto contendo dados para criação do novo pedido
+ * @returns {object} Objeto contendo dados do pedido criado
+ */
+export const createOrder = async (order) => {
+  const { Authorization } = authHeader();
+
+  const itemsOrder = order.items.map((item) => {
+    return {
+      amount: item.amount,
+      product_id: item.product.id,
+      price: item.price,
+      note: item.note,
+      additionItem: item.additionItem,
+    };
+  });
+
+  const data = {
+    commads_id: order.commads_id,
+    table_id: order.table_id,
+    name_client: order.name_client,
+    deliveryType_id: order.deliveryType_id,
+    statusRequest_id: order.statusRequest_id,
+    payment_id: order.payment_id,
+    coupon: order.coupon,
+    note: order.note,
+    address: order.address,
+    number: order.number,
+    neighborhood: order.neighborhood,
+    city: order.city,
+    uf: order.uf,
+    PointReferences: order.PointReferences,
+    cash: order.cash,
+    timeDelivery: order.timeDelivery,
+    items: itemsOrder,
+  };
+
+  return await api
+    .post("/request/create", data, {
+      headers: { Authorization: Authorization },
+    })
+    .then((resp) => resp);
+};
+
+/**
+ * Registra o pagamento do cliente, dando baixa na comanda e nos pedidos realizados
+ * @param {number} id_commads Identificação da comanda ID
+ * @param {uui} tokenOperation Token de operação
+ * @param {number} typePayment Identificação do tipo de pagamento
+ * @param {number} cash Valor em dinheiro para troco
+ * @returns {Object} Objeto { table_busy: "", message: ""}
+ */
+export const makePayment = async (
+  id_commads,
+  tokenOperation,
+  typePayment,
+  cash
+) => {
+  const { Authorization } = authHeader();
+
+  const data = {
+    type_payment: typePayment,
+    tokenoperation: tokenOperation,
+    cash: cash,
+  };
+
+  return await api
+    .put(`/table/commads/payment/${id_commads}`, data, {
+      headers: {
+        Authorization: Authorization,
+      },
+    })
+    .then((resp) => resp.data);
 };

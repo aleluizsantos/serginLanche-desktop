@@ -13,3 +13,4 @@ export { default as UserClient } from "./UserClient";
 export { default as PDV } from "./Pdv";
 export { default as MyTables } from "./MyTables";
 export { default as TableDetails } from "./TableDetail";
+export { default as Payments } from "./ModalPayments";

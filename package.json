@@ -99,6 +99,7 @@
     "react-google-maps": "9.4.5",
     "react-icons": "^4.6.0",
     "react-notification-alert": "0.0.12",
+    "react-qrcode": "^0.3.6",
     "react-redux": "^7.2.2",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",

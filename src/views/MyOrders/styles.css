@@ -1,3 +1,7 @@
+tr > td img {
+    object-fit: contain;
+    max-height: 40px;
+}
 .statusMyOrders {
     width: 10px;
     height: 8px;

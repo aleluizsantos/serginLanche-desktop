@@ -11,3 +11,4 @@ export * from "./TypeAdditional";
 export * from "./Establishment";
 export * from "./Cep";
 export * from "./Taxa";
+export * from "./useTable";

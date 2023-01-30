@@ -21,6 +21,7 @@ export const updateAddressStore = async (address) => {
   const { Authorization } = authHeader();
   // Salvar o endereço novo no STORAGE
   window.indexBridge.saveAddressStore(address);
+  localStorage.setItem("_system_address_store", JSON.stringify(address));
   return await api
     .put(`/addressStore/edit/${address.id}`, address, {
       headers: { Authorization: Authorization },

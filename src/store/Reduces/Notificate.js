@@ -6,7 +6,6 @@ import {
   UPDATE,
   UPDATESYSTEM,
   AUTO_OPEN_CLOSE,
-  ADDRESS_STORE,
 } from "../Actions/types";
 
 const openClose = localStorage.getItem("_openClosepicanha&cia");

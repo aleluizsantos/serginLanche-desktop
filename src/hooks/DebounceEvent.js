@@ -1,4 +1,4 @@
 let time;
-export const debounceEvent = (fn, wait = 1000) => {
+export const debounceEvent = (fn, wait = 800) => {
   clearTimeout(time, (time = setTimeout(() => fn(), wait)));
 };

@@ -49,13 +49,34 @@ export const createCommads = async ({
 };
 
 /**
+ * EXCLUI UMA COMANDA
+ * @param {Numbe} idCommads ID da comanda para excluir
+ * @returns {object} Object
+ */
+export const deleteCommads = async (idCommads) => {
+  const { Authorization } = authHeader();
+
+  try {
+    return await api
+      .delete(`/table/commads/delete/${idCommads}`, {
+        headers: {
+          Authorization: Authorization,
+        },
+      })
+      .then((resp) => resp);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+/**
  * LISTA TODOS OS PEDIDOS DA COMANDA
  * @param {object} data Objeto contendo { commadsId, statusRequest }
  * @returns {Array<object>} lista dos pedidos da comanda
  */
 export const listItemCommads = async (
   commadsId,
-  statusRequest = "1,2,3,4,5"
+  statusRequest = "1,2,3,4,5,7"
 ) => {
   const { Authorization } = authHeader();
 

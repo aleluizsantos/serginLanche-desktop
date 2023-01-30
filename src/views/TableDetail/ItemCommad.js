@@ -1,19 +1,30 @@
 import React from "react";
-import { Card, CardTitle, CardBody, CardText, Button } from "reactstrap";
 import { useHistory } from "react-router-dom";
+import {
+  Card,
+  CardTitle,
+  CardBody,
+  CardText,
+  Button,
+  CardFooter,
+} from "reactstrap";
 
-import { formatCurrency } from "../../hooks/format";
+import { formatCurrency } from "../../hooks";
+
 import "./styles.css";
 
-const ItemCommad = ({ commads, action }) => {
+const ItemCommad = ({ commads, action, deleteCommads, openModalPayment }) => {
   const history = useHistory();
 
-  function handleGotoPDV() {
+  // Ir para tela PDV
+  const handleGotoPDV = () => {
     history.push({
       pathname: "pdv",
       state: commads,
     });
-  }
+  };
+
+  const existItems = () => (commads.items.length === 0 ? false : true);
 
   return (
     <div className="content">
@@ -23,17 +34,39 @@ const ItemCommad = ({ commads, action }) => {
         </div>
         <CardTitle tag="h5"></CardTitle>
         <CardText tag="h5">
-          🛒 Pedido realizado na comanda {commads.idCommad}
+          🛒 Pedido realizado na comanda{" "}
+          <strong>{commads.commad.id_commads}</strong>
         </CardText>
-        <Button onClick={handleGotoPDV}>Novo pedido</Button>
+        <CardText tag="h6">Cliente: {commads.commad.name_client}</CardText>
+        <div>
+          <Button onClick={handleGotoPDV}>Novo pedido</Button>
+          {existItems() ? (
+            <Button color="info" onClick={openModalPayment}>
+              PAGAR
+            </Button>
+          ) : (
+            <Button
+              color="info"
+              onClick={() => deleteCommads(commads.commad.id_commads)}
+            >
+              Encerrar commada
+            </Button>
+          )}
+        </div>
         <CardBody>
           {commads.items.map((commad, idx) => (
             <Items key={idx} items={commad.item} />
           ))}
-          {commads.items.length === 0 && (
-            <span>Não foi realizado nenhum pedido</span>
-          )}
+          {!existItems() && <span>Não foi realizado nenhum pedido</span>}
         </CardBody>
+        <CardFooter
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <CardText tag="h4">TOTAL</CardText>
+          <CardText tag="h4">
+            {formatCurrency(commads.commad.totalValueToOrder)}
+          </CardText>
+        </CardFooter>
       </Card>
     </div>
   );

@@ -13,13 +13,16 @@ export const typeFormMyOrder = {
   PointReferences: "",
   cash: "",
   timeDelivery: "",
-  item: [
+  items: [
     {
       amount: "",
       product_id: "",
       price: "",
       note: "",
+      product: {},
       additionItem: "",
+      listAdditional: [],
+      sumTotalProduct: 0,
     },
   ],
 };

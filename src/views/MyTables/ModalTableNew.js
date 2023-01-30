@@ -32,7 +32,7 @@ const schemaForm = {
   },
 };
 
-const TableNew = ({ open, toogle }) => {
+const ModalTableNew = ({ open, toogle }) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState(typeForm);
 
@@ -129,4 +129,4 @@ const TableNew = ({ open, toogle }) => {
   );
 };
 
-export default TableNew;
+export default ModalTableNew;

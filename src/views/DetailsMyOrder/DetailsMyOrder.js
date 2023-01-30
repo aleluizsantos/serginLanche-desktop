@@ -42,6 +42,7 @@ import {
 import { ModalView, SelectDropdown } from "../../components";
 
 import imgDelivery from "../../assets/img/delivery.png";
+import imgTable from "../../assets/img/table.png";
 import imgStore from "../../assets/img/store.png";
 import imgWhatsapp from "../../assets/img/iconWhatsapp.png";
 import icoTrash from "../../assets/img/icoTrash-64.png";
@@ -55,6 +56,19 @@ const typeDelivery = {
   RETIRAR_LOJA: 4,
   AGENDADO: 5,
   FINALIZADO: 6,
+};
+
+const imgHeader = (idTypeDelivery) => {
+  switch (idTypeDelivery) {
+    case 1:
+      return imgDelivery;
+    case 2:
+      return imgStore;
+    case 3:
+      return imgTable;
+    default:
+      break;
+  }
 };
 
 const DetailsMyOrder = (props) => {
@@ -419,10 +433,28 @@ const DetailsMyOrder = (props) => {
                   </Button>
                   <span>Detalhe do pedido</span>
                   <div>
-                    <span>{state.deliveryType}</span>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <span>{state.deliveryType}</span>
+                      <span
+                        style={{
+                          fontSize: 16,
+                        }}
+                      >
+                        Mesa: {state.table_id}
+                      </span>
+                      <span style={{ fontSize: 16 }}>
+                        comanda: {state.commads_id}
+                      </span>
+                    </div>
                     <img
-                      src={state.deliveryType_id === 1 ? imgDelivery : imgStore}
+                      src={imgHeader(state.deliveryType_id)}
                       alt={state.deliveryType}
+                      className="type delivery"
                       style={{ paddingRight: 10 }}
                     />
                   </div>
@@ -443,8 +475,16 @@ const DetailsMyOrder = (props) => {
 
               <div className="detailsClient">
                 <div>
-                  <p className="titleName">{myOrder.name}</p>
-                  <p>{myOrder.email}</p>
+                  <p className="titleName">
+                    {myOrder.deliveryType_id === 3
+                      ? myOrder?.name_client
+                      : myOrder?.name}
+                  </p>
+                  <p>
+                    {myOrder.deliveryType_id === 3
+                      ? `Atendente: ${myOrder.name}`
+                      : myOrder.email}
+                  </p>
                   <div>
                     <Button
                       color="default"

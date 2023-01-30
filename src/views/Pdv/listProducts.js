@@ -6,7 +6,7 @@ import { formatCurrency, debounceEvent } from "../../hooks";
 import ListCategory from "./listCategory";
 import { FormsAddToCar } from "./FormsAddToCar";
 
-export default function ListProducts() {
+export default function ListProducts({ addProductCar }) {
   const [modalFormAddToCar, setModalFormAddToCar] = useState(false);
   const [listProduct, setListProduct] = useState([]);
   const [search, setSearch] = useState([]);
@@ -46,6 +46,10 @@ export default function ListProducts() {
     setModalFormAddToCar(true);
   };
 
+  const handleAddProductCar = (itemProduct) => {
+    addProductCar(itemProduct);
+  };
+
   return (
     <div className="content-products">
       <SearchBar onChange={(event) => handleSearch(event)} />
@@ -59,16 +63,18 @@ export default function ListProducts() {
         toogle={setModalFormAddToCar}
         open={modalFormAddToCar}
         product={productSelected}
+        addProductCar={handleAddProductCar}
       />
     </div>
   );
 }
 
 const ItemProduc = ({ item, action }) => {
+  const price = item.promotion ? item.pricePromotion : item.price;
   return (
     <div className="item-product" onClick={() => action(item)}>
       <div className="price-products">
-        <span className="title">{formatCurrency(item.price)}</span>
+        <span className="title">{formatCurrency(price)}</span>
         {item.promotion && (
           <span
             style={{

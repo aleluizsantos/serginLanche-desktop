@@ -19,6 +19,7 @@ import {
   PDV as PdvView,
   MyTables as MyTablesView,
   TableDetails as TableDetailsView,
+  Payments as PaymentesView,
 } from "./views";
 
 import { clearMessage } from "./store/Actions";
@@ -88,6 +89,14 @@ const listRoutes = [
     path: "/userClient",
     security: true,
   },
+  {
+    name: "Atendimento Mesa",
+    icon: "nc-icon nc-badge",
+    component: MyTablesView,
+    layout: MinimalLayout,
+    path: "/tables",
+    security: true,
+  },
 ];
 
 const Routes = () => {
@@ -140,20 +149,27 @@ const Routes = () => {
       />
       <RouteWithLayout
         component={PdvView}
-        layout={MainLayout}
+        layout={MinimalLayout}
         path={"/pdv"}
         exact
       />
+
       <RouteWithLayout
-        component={MyTablesView}
-        layout={MainLayout}
-        path={"/tables"}
+        component={TableDetailsView}
+        layout={MinimalLayout}
+        path={"/tablesDetails"}
         exact
       />
       <RouteWithLayout
         component={TableDetailsView}
         layout={MainLayout}
         path={"/tablesDetails"}
+        exact
+      />
+      <RouteWithLayout
+        component={PaymentesView}
+        layout={MainLayout}
+        path={"/payments"}
         exact
       />
       <Redirect to="/login" />

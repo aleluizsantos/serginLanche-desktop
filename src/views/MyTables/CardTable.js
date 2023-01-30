@@ -1,20 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
 import "./styles.css";
 
-const CardTable = ({ table }) => {
-  const history = useHistory();
-
-  const handleSelectedTable = () => {
-    history.push({
-      pathname: "tablesDetails",
-      state: table,
-    });
-  };
-
+const CardTable = ({ table, ...rest }) => {
   return (
-    <div onClick={handleSelectedTable} className="cardTable">
+    <div {...rest} className="cardTable">
       <div className="badgesTable">
         <span>{table.amount}</span>
       </div>

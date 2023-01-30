@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import validate from "validate.js";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { FormGroup, Input, FormText } from "reactstrap";
 
 import ModalView from "../../components/ModalView";
@@ -21,8 +20,13 @@ const schemaForm = {
   },
 };
 
-export const AddNewCommads = ({ open, toogle, idTable, tokenOperation }) => {
-  const history = useHistory();
+export const ModalAddNewCommads = ({
+  open,
+  toogle,
+  idTable,
+  tokenOperation,
+  addNewCommad,
+}) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     ...typeForm,
@@ -65,10 +69,19 @@ export const AddNewCommads = ({ open, toogle, idTable, tokenOperation }) => {
   const createNewCommads = async () => {
     if (form.isValid) {
       createCommads(form.values).then((resp) => {
-        history.push({
-          pathname: "pdv",
-          state: resp,
+        addNewCommad(resp);
+        // Limpa o Formulário mais mantém o token
+        setForm({
+          isValid: false,
+          touched: {},
+          values: {
+            ...form.values,
+            nameclient: "",
+            tokenOperation: resp.tokenOperation,
+          },
+          errors: {},
         });
+        toogle(false);
       });
     } else {
       dispatch({
@@ -81,7 +94,7 @@ export const AddNewCommads = ({ open, toogle, idTable, tokenOperation }) => {
   return (
     <ModalView
       size="md"
-      title={"🔖Nova comanda"}
+      title={"🔖 Nova comanda"}
       modal={open}
       toggle={() => toogle(!open)}
       confirmed={createNewCommads}
@@ -90,11 +103,13 @@ export const AddNewCommads = ({ open, toogle, idTable, tokenOperation }) => {
         <FormGroup>
           <label>Nome do Cliente</label>
           <Input
+            autoFocus
             placeholder="Qual é o nome do cliente"
             type="text"
             name="nameclient"
             invalid={hasError("amountofplace")}
             value={form.values.nameclient || ""}
+            onKeyUp={(e) => e.code === "Enter" && createNewCommads()}
             onChange={handleChangeForm}
           />
           {form.touched.nameclient &&

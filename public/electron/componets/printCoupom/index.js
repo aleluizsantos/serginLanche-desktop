@@ -4,6 +4,7 @@ const { PosPrinter } = require("electron-pos-printer");
 const { getDefaultPrinters, getSoundActive } = require("../../storage");
 const soundAlert = require("../sound_Alert");
 const LayoutCoupom = require("./layoutCoupom");
+const LayoutCoupomTable = require("./layoutCoupomTable");
 const {
   confirmationOrder,
   couponWasPrinted,
@@ -41,7 +42,10 @@ async function printCoupom(data, configPrint = {}) {
   };
 
   data.map(async (order) => {
-    const layoutCoupom = await LayoutCoupom(order);
+    const layoutCoupom =
+      order.deliveryType_id === 3
+        ? await LayoutCoupomTable(order)
+        : await LayoutCoupom(order);
     await print(order, layoutCoupom);
   });
 

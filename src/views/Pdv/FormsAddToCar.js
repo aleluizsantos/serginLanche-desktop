@@ -1,26 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { CardText, Button, FormGroup, Input } from "reactstrap";
+import React, { useState } from "react";
+import { FormGroup, Input } from "reactstrap";
 
-import { getAdditional } from "../../hooks/TypeAdditional";
 import ModalView from "../../components/ModalView";
-import { formatCurrency } from "../../hooks/format";
 import ShowAdditional from "./ShowAdditional";
 
-export const FormsAddToCar = ({ open, product, toogle }) => {
-  const [additional, setAdditional] = useState([]);
-  const [titleAdditional, setTitleAdditional] = useState([]);
+export const FormsAddToCar = ({ open, product, toogle, addProductCar }) => {
+  const [selectedAdditional, setSelectedAdditional] = useState([]);
+  const [amountProduct, setAmountProduct] = useState(1);
+  const [sumTotalProduct, setSumTotalProduct] = useState(0);
+  const [noteItem, setNoteItem] = useState("");
 
-  useEffect(() => {
-    const listAdditionalProduct = async () =>
-      await getAdditional(product.additional).then((resp) => {
-        setTitleAdditional([
-          ...new Set(resp.map((item) => item.typeAdditional)),
-        ]);
-        setAdditional(resp);
-      });
+  // Recebe com parametros os adicionais escolhidos
+  // a soma total e a quantidade escolhida e grava no state
+  const handleSelectedAdditional = (
+    additional,
+    amount = 1,
+    sumTotalProductMoreAdditional = 0
+  ) => {
+    setSelectedAdditional(additional);
+    setSumTotalProduct(sumTotalProductMoreAdditional);
+    setAmountProduct(amount);
+  };
 
-    listAdditionalProduct();
-  }, [product.additional]);
+  const addCar = () => {
+    const itemProduct = {
+      amount: amountProduct,
+      product: product,
+      price: product.promotion ? product.pricePromotion : product.price,
+      note: noteItem,
+      additionItem: selectedAdditional.map((item) => item.id).join(","),
+      listAdditional: selectedAdditional,
+      sumTotalProduct: sumTotalProduct,
+    };
+    setNoteItem("");
+    addProductCar(itemProduct);
+    toogle(!open);
+  };
 
   return (
     <ModalView
@@ -28,73 +43,23 @@ export const FormsAddToCar = ({ open, product, toogle }) => {
       title={"🔖Seu Produto"}
       modal={open}
       toggle={() => toogle(!open)}
-      confirmed={() => {}}
+      confirmed={addCar}
     >
-      <HeaderProduct product={product} />
-
-      <AmountProduct />
-
-      {titleAdditional.map((title, idx) => (
-        <ShowAdditional
-          key={idx}
-          title={title}
-          additional={additional.filter(
-            (elem) => elem.typeAdditional === title
-          )}
-          open={idx === 0 ? true : false}
-          valueDefault={product.valueDefautAdditional.split(",").map(Number)}
-        />
-      ))}
-      <NoteOrderProduct />
-    </ModalView>
-  );
-};
-
-const HeaderProduct = ({ product }) => {
-  const priceProduct = product.promotion
-    ? product.pricePromotion
-    : product.price;
-
-  return (
-    <div className="container-header-add-to-car">
-      <div className="content-image-product">
-        <img className="avatar" src={product.image_url} alt="lanche" />
-      </div>
-      <div className="content-description-product">
-        <CardText tag="h5">{product.name}</CardText>
-        {product.promotion && (
-          <span>De {formatCurrency(product.price)} por</span>
-        )}
-        <CardText tag="h5">{formatCurrency(priceProduct)}</CardText>
-
-        <CardText tag="cite">{product.ingredient}</CardText>
-      </div>
-    </div>
-  );
-};
-
-const AmountProduct = () => {
-  return (
-    <div className="content-amount-product">
-      <div className="action-amount-product">
-        <Button>-</Button>
-        <Input value="1" />
-        <Button>+</Button>
-      </div>
-    </div>
-  );
-};
-
-const NoteOrderProduct = () => {
-  return (
-    <FormGroup>
-      <Input
-        type="textarea"
-        name="noteOrderProduct"
-        // value={formState.values.ingredient || ""}
-        // onChange={(event) => handleChange(event)}
-        placeholder="Observação do produto"
+      <ShowAdditional
+        product={product}
+        changerAdditional={handleSelectedAdditional}
       />
-    </FormGroup>
+
+      <FormGroup>
+        <Input
+          type="textarea"
+          name="noteOrderProduct"
+          maxLength={256}
+          value={noteItem || ""}
+          onChange={(e) => setNoteItem(e.target.value)}
+          placeholder="Observação do produto"
+        />
+      </FormGroup>
+    </ModalView>
   );
 };

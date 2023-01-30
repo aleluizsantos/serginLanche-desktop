@@ -63,6 +63,7 @@ const User = () => {
       });
     };
     fetchAddressStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Criado as regras de validação de password

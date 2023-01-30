@@ -23,6 +23,7 @@ import "./styles.css";
 import imgDelivery from "../../assets/img/delivery.png";
 import imgStore from "../../assets/img/store.png";
 import imgOrderEmpty from "../../assets/img/orderEmpty.png";
+import imgTable from "../../assets/img/table.png";
 
 import { formatDateTime } from "../../hooks/format";
 import {
@@ -126,6 +127,19 @@ const MyOrders = () => {
     window.indexBridge.servicePrintCoupom(objectWithConfigPrint);
   }
 
+  const imgHeader = (idTypeDelivery) => {
+    switch (idTypeDelivery) {
+      case 1:
+        return imgDelivery;
+      case 2:
+        return imgStore;
+      case 3:
+        return imgTable;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="content">
@@ -193,14 +207,33 @@ const MyOrders = () => {
                     {myOrders.map((item) => (
                       <tr key={item.id}>
                         <td>
+                          {item.deliveryType_id === 3 && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                height: 20,
+                                width: 20,
+                                top: 5,
+                                left: 5,
+                                background: `rgba(24, 157, 14, 0.5)`,
+                                boxShadow: `0px 2px 2px rgba(0, 0, 0, 0.25)`,
+                                fontWeight: "bold",
+                                color: "#fff",
+                                padding: 8,
+                                fontSize: "0.6rem",
+                                borderRadius: 15,
+                              }}
+                            >
+                              {item.table_id}
+                            </span>
+                          )}
                           <img
-                            src={
-                              item.deliveryType_id === 1
-                                ? imgDelivery
-                                : imgStore
-                            }
+                            src={imgHeader(item.deliveryType_id)}
                             alt={item.deliveryType}
-                            className="imgTypeDelivery"
+                            className="type delivery"
                           />
                         </td>
                         <td>{formatDateTime(item.dateTimeOrder)}</td>
@@ -208,7 +241,9 @@ const MyOrders = () => {
                           style={{ cursor: "pointer", fontWeight: "bold" }}
                           onClick={() => goToDetailsMyOrders(item)}
                         >
-                          {item.name}
+                          {item.deliveryType_id === 3
+                            ? item.name_client
+                            : item.name}
                         </td>
                         <td>
                           <div
