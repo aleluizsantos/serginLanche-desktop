@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FormGroup, Input, Button } from "reactstrap";
 import { BsTrash } from "react-icons/bs";
 
 import logo from "../../assets/img/icon.png";
-import { formatCurrency } from "../../hooks";
+import { formatCurrency, getAddressStore } from "../../hooks";
 
 const Coupom = ({ order, removerItem, checkout }) => {
   const { user } = useSelector((state) => state.Authenticate);
   const [noteItem, setNoteItem] = useState("");
+  const [addressStore, setAddressStore] = useState("");
   const produtsCuopom = order.items;
   const sumTotalCar = produtsCuopom.reduce(
     (acc, item) => acc + Number(item.sumTotalProduct),
     0
   );
+
+  useEffect(() => {
+    const fetchData = async () =>
+      getAddressStore().then((resp) => setAddressStore(resp));
+
+    fetchData();
+  }, []);
 
   return (
     <div className="content-coupon">
@@ -23,19 +31,35 @@ const Coupom = ({ order, removerItem, checkout }) => {
           <div className="address-store">
             <span>SERGIN LANCHE</span>
             <span>
-              {order.address}, {order.number}, {order.neighborhood},{" "}
-              {order.city}/{order.uf}
+              {addressStore.address}, {addressStore.number},{" "}
+              {addressStore.neighborhood}, {addressStore.city}/{addressStore.uf}
             </span>
-            <span>{order.phone}</span>
+            <span>{addressStore.phone}</span>
           </div>
         </div>
 
         <div style={{ paddingTop: 10, borderBottom: "1px solid #cfcece" }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h6>MESA: {order?.commads?.table_id}</h6>
-            <h6>COMANDA: {order?.commads?.id_commads}</h6>
-          </div>
+          {order.deliveryType_id === 3 && (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h6>MESA: {order?.commads?.table_id}</h6>
+              <h6>COMANDA: {order?.commads?.id_commads}</h6>
+            </div>
+          )}
           <h6>Cliente: {order?.commads?.name_client}</h6>
+          {order.deliveryType_id !== 3 && (
+            <>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h6>{order?.phone}</h6>
+                <h6>
+                  {order.deliveryType_id === 1 ? "Delivery" : "Retirar Loja"}
+                </h6>
+              </div>
+              <span>
+                {order.address},{order.number}, {order.neighborhood},{" "}
+                {order.city}
+              </span>
+            </>
+          )}
         </div>
 
         <div className="item-cupom">

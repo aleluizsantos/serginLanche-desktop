@@ -8,32 +8,41 @@ import ModalView from "../../components/ModalView";
 
 import "./styles.css";
 
+/**
+ * Modal de Pagamento
+ * @param {object} Object parametro de funcionalidade
+ * @returns JSX Modal
+ */
 const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
   const { commad } = dataCommad;
-  const [payment, setPayment] = useState([]);
-  const [paymentSelected, setPaymentSelected] = useState("");
+  const [listPayment, setListPayment] = useState([]);
+  const [selectedPayment, setPaymentSelected] = useState("");
   const [cash, setCash] = useState(0);
   const [thing, setThing] = useState(0);
 
-  const dataUrl = useQRCode(paymentSelected?.key_pix || "");
+  const dataUrl = useQRCode(selectedPayment?.key_pix || "");
 
   useEffect(() => {
     const fetchData = async () =>
-      await getListPayments().then((resp) => setPayment(resp));
+      await getListPayments().then((resp) => setListPayment(resp));
     fetchData();
   }, []);
 
+  // Fechar o modal cancelando, não fazendo nenhuma alteração
   const handleCancel = () => {
     setPaymentSelected("");
     toogle(!open);
   };
 
+  // Excluir da lista o tipo de pagamento selecionado
   const handleDeletePaymentSelected = () => {
     setPaymentSelected("");
     setCash(0);
     setThing(0);
   };
 
+  // Capturar o valor digitado no formulário do troco
+  // após calcular o valor do troco
   const handleCast = (event) => {
     const valueCast = Number(event.target.value);
     const isNumber = isNaN(event.target.value);
@@ -44,12 +53,13 @@ const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
     }
   };
 
+  // Gravar o tipo de pagamento selecionado
   const handleMakePayment = async () => {
-    if (paymentSelected) {
+    if (selectedPayment) {
       await makePayment(
         commad.id_commads,
         commad.tokenOperation,
-        paymentSelected.id,
+        selectedPayment.id,
         cash
       );
       toogle(false);
@@ -75,17 +85,17 @@ const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
 
       <h4>{commad.name_client}</h4>
       <h6>Selecione tipo de pagamento</h6>
-      {paymentSelected ? (
+      {selectedPayment ? (
         <div className="content-type-payment-selected">
-          <img src={paymentSelected.image_url} alt={paymentSelected.type} />
-          <span>{paymentSelected.type}</span>
+          <img src={selectedPayment.image_url} alt={selectedPayment.type} />
+          <span>{selectedPayment.type}</span>
           <BsTrash
             size={18}
             className="trash"
             color="red"
             onClick={handleDeletePaymentSelected}
           />
-          {paymentSelected.id === 1 && (
+          {selectedPayment.id === 1 && (
             <div className="value-cast">
               <FormGroup>
                 <Input
@@ -98,14 +108,14 @@ const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
             </div>
           )}
 
-          {paymentSelected.key_pix && (
+          {selectedPayment.key_pix && (
             <div className="content-image-pix">
               <img src={dataUrl} alt="pix" />
             </div>
           )}
         </div>
       ) : (
-        payment.map((item, idx) => (
+        listPayment.map((item, idx) => (
           <ul key={idx} className="content-type-payment">
             <li onClick={() => setPaymentSelected(item)}>
               <img src={item.image_url} alt={item.type} />

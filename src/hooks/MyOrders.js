@@ -10,7 +10,7 @@ export const typeStatusMyOrders = {
   AGENDADO: 5,
   FINALIZADO: 6,
   ACTIVE: "1,2,3,4,5",
-  ALL: "1,2,3,4,5,6",
+  ALL: "1,2,3,4,5,6,7",
 };
 
 /**
@@ -174,6 +174,7 @@ export const createOrder = async (order) => {
     address: order.address,
     number: order.number,
     neighborhood: order.neighborhood,
+    phone: order.phone,
     city: order.city,
     uf: order.uf,
     PointReferences: order.PointReferences,

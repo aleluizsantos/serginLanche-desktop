@@ -49,7 +49,7 @@ const ItemCommad = ({ commads, action, deleteCommads, openModalPayment }) => {
               color="info"
               onClick={() => deleteCommads(commads.commad.id_commads)}
             >
-              Encerrar commada
+              Encerrar comanda
             </Button>
           )}
         </div>

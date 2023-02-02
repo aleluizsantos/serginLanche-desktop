@@ -18,6 +18,8 @@ import { ModalAddNewCommads } from "./ModalAddNewCommads";
 const typeSelectCommad = {
   commad: {},
   items: [],
+  typeDelivery: 3, // Atendimento mesa
+  typePayment: 6, // Aguardando pagamento
 };
 
 // Detalhe da mesa: Recebendo da page Mesas o state contendo
@@ -48,18 +50,27 @@ function TableDetail() {
         setSelectedCommad({
           commad: commad,
           items: hasItemCommad,
+          typeDelivery: 3, // Atendimento mesa
+          typePayment: 6,
         });
       } else {
         // Buscar os pedidos referente a comanda e salvar no state para nova pesquisa
         listItemCommads(commad.id_commads).then((result) => {
           setItemCommads([...itemCommad, result]);
-          setSelectedCommad({ commad: commad, items: result });
+          setSelectedCommad({
+            commad: commad,
+            items: result,
+            typeDelivery: 3,
+            typePayment: 6,
+          });
         });
       }
     } else {
       setSelectedCommad({
         commad: commad,
         items: itemsCommads,
+        typeDelivery: 3,
+        typePayment: 6,
       });
     }
   };
@@ -67,7 +78,12 @@ function TableDetail() {
   // ADICIONAR UMA NOVA COMANDA
   const handleAddNewCommands = (commadsNew) => {
     setListCommandsOpen([...listCommandsOpen, commadsNew]);
-    setSelectedCommad({ commad: { ...commadsNew }, items: [] });
+    setSelectedCommad({
+      commad: { ...commadsNew },
+      items: [],
+      typeDelivery: 3, // Atendiment Mesa
+      typePayment: 6, // Aguardando pagamento
+    });
   };
 
   //DELETAR UM COMANDA QUE NÃO TENHA NENHUM PEDIDO
@@ -126,7 +142,7 @@ function TableDetail() {
 
   return (
     <div className="container-table-details">
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 50 }}>
         <Button onClick={() => history.goBack()} size="sm">
           <BsArrowLeftCircle size={26} />
         </Button>
@@ -148,7 +164,9 @@ function TableDetail() {
             <CardText tag="h6">
               Total: {formatCurrency(dataTable.tableGrandTotal)}
             </CardText>
-            <CardText tag="h6">Comandas: {listCommandsOpen.length}</CardText>
+            <CardText tag="h6">
+              Total comandas: {listCommandsOpen.length}
+            </CardText>
             <Button
               onClick={() => setModalNewCommads(!modalNewCommads)}
               color="info"

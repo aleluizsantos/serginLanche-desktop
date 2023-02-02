@@ -653,10 +653,10 @@ const ProductNew = (props) => {
                       <Col md="12">
                         <div className="listAdditionalDefault">
                           <div>
-                            <span>O produto possui adicional padrão.</span>
+                            <span>O produto possui adicional padrão?</span>
                             <p>
-                              Este(s) são os adicionais definidos como padrão
-                              para este produto.
+                              Abaixo estão relaconado os adicionais definidos
+                              como padrão para este produto.
                             </p>
                           </div>
                           <Button

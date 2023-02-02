@@ -14,3 +14,4 @@ export { default as PDV } from "./Pdv";
 export { default as MyTables } from "./MyTables";
 export { default as TableDetails } from "./TableDetail";
 export { default as Payments } from "./ModalPayments";
+export { default as SalePhone } from "./SalePhone";

@@ -114,7 +114,7 @@ const layoutCoupom = async (order) => {
     },
     {
       type: "text", // 'text' | 'barCode' | 'qrCode' | 'image' | 'table'
-      value: `<strong>Cliente:</strong> ${order.name}<br>`,
+      value: `<strong>Cliente:</strong> ${order.name_client}<br>`,
       style: {
         fontSize: "14px",
         padding: "5px 0",

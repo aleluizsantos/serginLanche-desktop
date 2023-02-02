@@ -20,6 +20,7 @@ import {
   MyTables as MyTablesView,
   TableDetails as TableDetailsView,
   Payments as PaymentesView,
+  SalePhone as SalePhoneView,
 } from "./views";
 
 import { clearMessage } from "./store/Actions";
@@ -170,6 +171,12 @@ const Routes = () => {
         component={PaymentesView}
         layout={MainLayout}
         path={"/payments"}
+        exact
+      />
+      <RouteWithLayout
+        component={SalePhoneView}
+        layout={MainLayout}
+        path={"/salephone"}
         exact
       />
       <Redirect to="/login" />

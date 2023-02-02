@@ -1,0 +1,10 @@
+.container-sale-phone {
+    margin: 80px 20px;
+    height: 74vh;
+}
+.container-sale-phone  .footer-sale-phone button {
+    margin-left: 10px !important;
+}
+.container-sale-phone  .footer-sale-phone img {
+    height: 35px;
+}

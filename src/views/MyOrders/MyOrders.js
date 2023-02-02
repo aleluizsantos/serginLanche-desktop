@@ -155,7 +155,9 @@ const MyOrders = () => {
                 <div className="SelectStatus">
                   <CardTitle tag="h5">🛒Meus Pedidos</CardTitle>
                   <div>
-                    <Button>Telefone/Balcão</Button>
+                    <Button onClick={() => history.push("salephone")}>
+                      Telefone/Balcão
+                    </Button>
                     <Button onClick={() => history.push("tables")}>
                       Atendimento Mesa
                     </Button>
@@ -241,9 +243,7 @@ const MyOrders = () => {
                           style={{ cursor: "pointer", fontWeight: "bold" }}
                           onClick={() => goToDetailsMyOrders(item)}
                         >
-                          {item.deliveryType_id === 3
-                            ? item.name_client
-                            : item.name}
+                          {item.name_client}
                         </td>
                         <td>
                           <div

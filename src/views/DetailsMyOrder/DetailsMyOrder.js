@@ -116,7 +116,7 @@ const DetailsMyOrder = (props) => {
         setTaxaDelivery(response.taxaDelivery);
       });
       setMyOrder(state);
-      setPhoneWhatsapp(state.phone.replace(/([^\d])+/gim, ""));
+      setPhoneWhatsapp(state?.phone?.replace(/([^\d])+/gim, ""));
       setDescriptionStatus(state.statusRequest);
       state.statusRequest_id < typeDelivery.RETIRAR_LOJA
         ? setCurrentPorcent(
@@ -440,16 +440,20 @@ const DetailsMyOrder = (props) => {
                       }}
                     >
                       <span>{state.deliveryType}</span>
-                      <span
-                        style={{
-                          fontSize: 16,
-                        }}
-                      >
-                        Mesa: {state.table_id}
-                      </span>
-                      <span style={{ fontSize: 16 }}>
-                        comanda: {state.commads_id}
-                      </span>
+                      {state.deliveryType_id === 3 && (
+                        <>
+                          <span
+                            style={{
+                              fontSize: 16,
+                            }}
+                          >
+                            Mesa: {state.table_id}
+                          </span>
+                          <span style={{ fontSize: 16 }}>
+                            comanda: {state.commads_id}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <img
                       src={imgHeader(state.deliveryType_id)}
@@ -475,35 +479,33 @@ const DetailsMyOrder = (props) => {
 
               <div className="detailsClient">
                 <div>
-                  <p className="titleName">
-                    {myOrder.deliveryType_id === 3
-                      ? myOrder?.name_client
-                      : myOrder?.name}
-                  </p>
+                  <p className="titleName">{myOrder?.name_client}</p>
+
                   <p>
-                    {myOrder.deliveryType_id === 3
-                      ? `Atendente: ${myOrder.name}`
-                      : myOrder.email}
+                    {myOrder.deliveryType_id === 3 &&
+                      `Atendente: ${myOrder.name}`}
                   </p>
-                  <div>
-                    <Button
-                      color="default"
-                      outline
-                      size="sm"
-                      onClick={() =>
-                        handleMessageWhatsapp(
-                          `Olá ${myOrder.name} tudo bem. %0ASomos do Sergin Lanche.`
-                        )
-                      }
-                    >
-                      <img
-                        className="iconWhatsapp"
-                        src={imgWhatsapp}
-                        alt="Icone Whatsapp"
-                      />{" "}
-                      Entre em contato <span>{myOrder.phone}</span>
-                    </Button>
-                  </div>
+                  {state?.phone && state.deliveryType_id !== 3 && (
+                    <div>
+                      <Button
+                        color="default"
+                        outline
+                        size="sm"
+                        onClick={() =>
+                          handleMessageWhatsapp(
+                            `Olá ${myOrder.name_client} tudo bem. %0ASomos do Sergin Lanche.`
+                          )
+                        }
+                      >
+                        <img
+                          className="iconWhatsapp"
+                          src={imgWhatsapp}
+                          alt="Icone Whatsapp"
+                        />{" "}
+                        Entre em contato <span>{myOrder.phone}</span>
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <div>
