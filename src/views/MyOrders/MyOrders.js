@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TfiTag, TfiPrinter, TfiControlForward } from "react-icons/tfi";
+import { BsLayersFill, BsFillBasket2Fill } from "react-icons/bs";
 import { useHistory } from "react-router-dom";
 // reactstrap components
 import {
@@ -17,6 +18,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Label,
 } from "reactstrap";
 
 import "./styles.css";
@@ -26,18 +28,17 @@ import imgOrderEmpty from "../../assets/img/orderEmpty.png";
 import imgTable from "../../assets/img/table.png";
 
 import { formatDateTime } from "../../hooks/format";
-import {
-  getOrders,
-  typeStatusMyOrders,
-  upDateStateMyOrders,
-} from "../../hooks/MyOrders";
+import { getOrders, upDateStateMyOrders } from "../../hooks/MyOrders";
+import { stageDelivery, typeDelivery } from "../../variables/types";
 import { NEW_ORDERS } from "../../store/Actions/types";
+import { MenuDropDown } from "../../components";
 
 const MyOrders = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [myOrders, setMyOrders] = useState([]);
   const [isloading, setIsloading] = useState(false);
+  const [menuStatus, setMenuStatus] = useState(false);
   const { update } = useSelector((state) => state.Notificate);
 
   useEffect(() => {
@@ -48,7 +49,8 @@ const MyOrders = () => {
   }, [update]);
 
   const MyDropdown = (myOrder) => {
-    const isFinally = myOrder.item.statusRequest_id === 6 ? false : true;
+    const isFinally =
+      myOrder.item.statusRequest_id === stageDelivery.FINALIZADO ? false : true;
     const statusRequest = myOrder.item.statusRequest;
     return (
       <div style={{ overflow: "auto" }}>
@@ -90,7 +92,7 @@ const MyOrders = () => {
     );
   };
 
-  function listMyOrders(status = typeStatusMyOrders.ACTIVE) {
+  function listMyOrders(status = stageDelivery.ACTIVE) {
     setIsloading(true);
     getOrders(status)
       .then((response) => {
@@ -140,6 +142,39 @@ const MyOrders = () => {
     }
   };
 
+  const optionMenuStatus = [
+    {
+      title: "Em Processo",
+      value: stageDelivery.ACTIVE,
+      action: handleSelectStatus,
+    },
+    {
+      title: "Todos",
+      value: stageDelivery.ALL,
+      action: handleSelectStatus,
+    },
+    {
+      title: "Preparando",
+      value: stageDelivery.EM_PREPARACAO,
+      action: handleSelectStatus,
+    },
+    {
+      title: "Retirar Loja",
+      value: stageDelivery.RETIRAR_LOJA,
+      action: handleSelectStatus,
+    },
+    {
+      title: "Confirmado entrega",
+      value: stageDelivery.ROTA_ENTREGA,
+      action: handleSelectStatus,
+    },
+    {
+      title: "Finalizado",
+      value: stageDelivery.FINALIZADO,
+      action: handleSelectStatus,
+    },
+  ];
+
   return (
     <>
       <div className="content">
@@ -155,41 +190,42 @@ const MyOrders = () => {
                 <div className="SelectStatus">
                   <CardTitle tag="h5">🛒Meus Pedidos</CardTitle>
                   <div>
-                    <Button onClick={() => history.push("salephone")}>
+                    <Button
+                      id="btn-goto-salePhone"
+                      onClick={() => history.push("salephone")}
+                      className="btn-round btn-icon"
+                      color="info"
+                    >
+                      <BsFillBasket2Fill size={24} color="#007bff" />
+                    </Button>
+                    <Label
+                      style={{ paddingLeft: 5, paddingRight: 10 }}
+                      for="btn-goto-salePhone"
+                    >
                       Telefone/Balcão
+                    </Label>
+
+                    <Button
+                      id="btn-goto-tables"
+                      onClick={() => history.push("tables")}
+                      className="btn-round btn-icon"
+                      color="info"
+                    >
+                      <BsLayersFill size={22} color="#007bff" />
                     </Button>
-                    <Button onClick={() => history.push("tables")}>
+                    <Label
+                      style={{ paddingLeft: 5, paddingRight: 10 }}
+                      for="btn-goto-tables"
+                    >
                       Atendimento Mesa
-                    </Button>
+                    </Label>
                   </div>
-                  <select
-                    name="statusOrder"
-                    id="statusOrder"
-                    onChange={(event) => handleSelectStatus(event.target.value)}
-                  >
-                    <option value={typeStatusMyOrders.ACTIVE}>
-                      Em processo
-                    </option>
-                    <option value={typeStatusMyOrders.ALL}>Todos</option>
-                    <option value={typeStatusMyOrders.EM_PREPARACAO}>
-                      Preparado
-                    </option>
-                    <option value={typeStatusMyOrders.RETIRAR_LOJA}>
-                      Retirar Loja
-                    </option>
-                    <option value={typeStatusMyOrders.ROTA_ENTREGA}>
-                      Confirmar entrega
-                    </option>
-                    <option value={typeStatusMyOrders.FINALIZADO}>
-                      Finalizado
-                    </option>
-                  </select>
+                  <MenuDropDown
+                    isOpen={menuStatus}
+                    toogle={() => setMenuStatus(!menuStatus)}
+                    data={optionMenuStatus}
+                  />
                 </div>
-                {/* <div>
-                  <Button onClick={() => history.push("pdv")}>
-                    Pedido Balcão
-                  </Button>
-                </div> */}
               </CardHeader>
               <CardBody style={{ width: "100%" }}>
                 <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
@@ -209,7 +245,7 @@ const MyOrders = () => {
                     {myOrders.map((item) => (
                       <tr key={item.id}>
                         <td>
-                          {item.deliveryType_id === 3 && (
+                          {item.deliveryType_id === typeDelivery.TABLE && (
                             <span
                               style={{
                                 position: "absolute",
@@ -321,7 +357,7 @@ const MyOrders = () => {
                 {myOrders.length <= 0 && (
                   <div className="imgOrderEmpty">
                     <img src={imgOrderEmpty} alt="empty" />
-                    <h4>Aguardando novos pedidos</h4>
+                    <h4>Aguardando pedidos</h4>
                   </div>
                 )}
               </CardBody>

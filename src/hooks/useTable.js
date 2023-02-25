@@ -5,11 +5,13 @@ import { authHeader } from "../services/authHeader";
  * Busca todos as mesas cadastradas
  * @returns {Object} Lista de mesas cadastradas
  */
-export const getListTable = async () => {
+export const getListTable = async (id = null) => {
   const { Authorization } = authHeader();
 
+  const url = id === null ? "table" : `table/${id}`;
+
   return await api
-    .get("table", { headers: { Authorization: Authorization } })
+    .get(url, { headers: { Authorization: Authorization } })
     .then((resp) => resp.data);
 };
 

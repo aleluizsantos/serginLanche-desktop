@@ -10,16 +10,17 @@ import { SET_MESSAGE } from "../../store/Actions/types";
 import ModalPayments from "../ModalPayments";
 import { formatCurrency, makePayment } from "../../hooks";
 import { listItemCommads, deleteCommads } from "../../hooks/useTable";
-import imgTable from "../../assets/img/table.png";
 import Commads from "./Commads";
 import ItemCommad from "./ItemCommad";
 import { ModalAddNewCommads } from "./ModalAddNewCommads";
+import { typePayment, typeDelivery } from "../../variables/types";
+import imgTable from "../../assets/img/table.png";
 
 const typeSelectCommad = {
   commad: {},
   items: [],
-  typeDelivery: 3, // Atendimento mesa
-  typePayment: 6, // Aguardando pagamento
+  typeDelivery: typeDelivery.TABLE, // Atendimento mesa
+  typePayment: typePayment.NOTA, // Aguardando pagamento
 };
 
 // Detalhe da mesa: Recebendo da page Mesas o state contendo
@@ -50,8 +51,8 @@ function TableDetail() {
         setSelectedCommad({
           commad: commad,
           items: hasItemCommad,
-          typeDelivery: 3, // Atendimento mesa
-          typePayment: 6,
+          typeDelivery: typeDelivery.TABLE, // Atendimento mesa
+          typePayment: typePayment.NOTA,
         });
       } else {
         // Buscar os pedidos referente a comanda e salvar no state para nova pesquisa
@@ -60,8 +61,8 @@ function TableDetail() {
           setSelectedCommad({
             commad: commad,
             items: result,
-            typeDelivery: 3,
-            typePayment: 6,
+            typeDelivery: typeDelivery.TABLE, // Atendimento mesa
+            typePayment: typePayment.NOTA, // Aguardando pagamento
           });
         });
       }
@@ -69,8 +70,8 @@ function TableDetail() {
       setSelectedCommad({
         commad: commad,
         items: itemsCommads,
-        typeDelivery: 3,
-        typePayment: 6,
+        typeDelivery: typeDelivery.TABLE, // Atendimento mesa
+        typePayment: typePayment.NOTA, // Aguardando pagamento
       });
     }
   };
@@ -81,8 +82,8 @@ function TableDetail() {
     setSelectedCommad({
       commad: { ...commadsNew },
       items: [],
-      typeDelivery: 3, // Atendiment Mesa
-      typePayment: 6, // Aguardando pagamento
+      typeDelivery: typeDelivery.TABLE, // Atendimento mesa
+      typePayment: typePayment.NOTA, // Aguardando pagamento
     });
   };
 
@@ -143,13 +144,18 @@ function TableDetail() {
   return (
     <div className="container-table-details">
       <div style={{ display: "flex", alignItems: "center", marginBottom: 50 }}>
-        <Button onClick={() => history.goBack()} size="sm">
-          <BsArrowLeftCircle size={26} />
+        <Button
+          className="btn-round btn-icon"
+          color="info"
+          onClick={() => history.goBack()}
+        >
+          <BsArrowLeftCircle size={28} color="#007bff" />
         </Button>
         <CardText style={{ marginLeft: 20 }} tag="h3">
           Detalhe da mesa
         </CardText>
       </div>
+
       <Row>
         {/* DADOS DA MESA COM AS COMANDAS ABERTAS */}
         <Col>

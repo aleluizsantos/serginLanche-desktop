@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+
 import { FormGroup, Input, FormText } from "reactstrap";
 
 import ModalView from "../../components/ModalView";
-import { saveTable } from "../../hooks/useTable";
-import "./styles.css";
 
-import { SET_MESSAGE } from "../../store/Actions/types";
+import "./styles.css";
 
 import validate from "validate.js";
 
@@ -32,8 +30,7 @@ const schemaForm = {
   },
 };
 
-const ModalTableNew = ({ open, toogle }) => {
-  const dispatch = useDispatch();
+const ModalTableNew = ({ open, toogle, saveTable }) => {
   const [form, setForm] = useState(typeForm);
 
   const handleChangeForm = (event) => {
@@ -65,23 +62,13 @@ const ModalTableNew = ({ open, toogle }) => {
   const hasError = (field) =>
     form.touched[field] && form.errors[field] ? true : false;
 
-  const createNewTable = async () => {
-    saveTable(form.values).then((result) => {
-      dispatch({
-        type: SET_MESSAGE,
-        payload: result?.success || "Adicionado nova mesa",
-      });
-      toogle();
-    });
-  };
-
   return (
     <ModalView
       size="md"
       title={"🔖Adicionar nova mesa"}
       modal={open}
       toggle={toogle}
-      confirmed={createNewTable}
+      confirmed={() => saveTable(form)}
     >
       <div className="container-modal-new-table">
         <FormGroup>

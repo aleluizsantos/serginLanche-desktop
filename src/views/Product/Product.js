@@ -20,7 +20,14 @@ import {
   Label,
 } from "reactstrap";
 
-import { BsTrash, BsPencilSquare, BsX } from "react-icons/bs";
+import {
+  BsTrash,
+  BsPencilSquare,
+  BsX,
+  BsFillPlusCircleFill,
+  BsFillGiftFill,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 
 import { url } from "../../services/host";
 import { SET_MESSAGE } from "../../store/Actions/types";
@@ -32,6 +39,7 @@ import {
   getProductSearch,
   debounceEvent,
   updateProduct,
+  errorImageUrl,
 } from "../../hooks";
 import { ModalView, PaginationNew, SearchBar } from "../../components";
 import imgNoMobile from "../../assets/img/noMobile.png";
@@ -90,15 +98,17 @@ const Product = () => {
   const dropdownToggle = (e) => {
     e.preventDefault();
     // Verificar se o usuário selecionado o botão de "PRODUTO EM PROMOÇÃO"
-    // Se estiver selecionado ao clicar no botão categoria limpar state
-    // selectCategory para um array vazio.
     const exist = selectCategory.findIndex(
       (cat) => cat.id === PRODUCT_PROMOTION
     );
-    !!!exist && setSelectCategory([]);
-    setSearch(null);
+    // Existe === 0, usuário selecionou produto em promoção - então deve se Resetado
+    if (exist === 0) {
+      setSelectCategory([]);
+      setSearch(null);
+    }
 
     listAllCategorys.length <= 0 &&
+      selectCategory.length <= 0 &&
       getCategorys().then((response) => {
         setListAllCategorys(response);
       });
@@ -232,47 +242,96 @@ const Product = () => {
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">Meus Produtos </CardTitle>
-                <div className="contentButton">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  className="contentButton"
+                >
+                  <div>
+                    <Button
+                      id="btn-promotion"
+                      onClick={handleProductPromotion}
+                      className="btn-round btn-icon"
+                      color="info"
+                    >
+                      <BsFillGiftFill size={22} color="#007bff" />
+                    </Button>
+                    <Label
+                      style={{
+                        margin: 0,
+                        paddingLeft: 5,
+                        paddingRight: 10,
+                        cursor: "pointer",
+                      }}
+                      for="btn-promotion"
+                    >
+                      Produto em Promoção
+                    </Label>
+
+                    <Button
+                      id="btn-goto-new-product"
+                      onClick={goToAddNewProduct}
+                      className="btn-round btn-icon"
+                      color="info"
+                    >
+                      <BsFillPlusCircleFill size={28} color="#007bff" />
+                    </Button>
+                    <Label
+                      style={{
+                        margin: 0,
+                        paddingLeft: 5,
+                        paddingRight: 10,
+                        cursor: "pointer",
+                      }}
+                      for="btn-goto-new-product"
+                    >
+                      Produto
+                    </Label>
+                  </div>
                   <Dropdown
+                    direction="left"
+                    inNavbar={true}
                     isOpen={dropdownOpen}
                     toggle={(e) => dropdownToggle(e)}
                   >
-                    <DropdownToggle>
-                      <i className="nc-icon nc-bullet-list-67" />
-                      <span> Categoria</span>
+                    <DropdownToggle data-toggle="dropdown" tag="span">
+                      <BsThreeDotsVertical size={28} color="#007bff" />
                     </DropdownToggle>
                     <DropdownMenu>
-                      {listAllCategorys.map((item, idx) => (
-                        <DropdownItem
-                          key={idx}
-                          id={item.id}
-                          tag="a"
-                          onClick={() => handleSelectCategoy(item)}
-                        >
-                          {item.name}
+                      {listAllCategorys.length <= 0 ? (
+                        <DropdownItem>
+                          Todas categorias selecionadas
                         </DropdownItem>
-                      ))}
+                      ) : (
+                        listAllCategorys.map((item, idx) => (
+                          <DropdownItem
+                            key={idx}
+                            id={item.id}
+                            onClick={() => handleSelectCategoy(item)}
+                          >
+                            {item.name}
+                          </DropdownItem>
+                        ))
+                      )}
                     </DropdownMenu>
                   </Dropdown>
-                  <Button color="primary" onClick={handleProductPromotion}>
-                    Produto em Promoção
-                  </Button>
-                  <Button color="info" onClick={goToAddNewProduct}>
-                    Novo Produto
-                  </Button>
                 </div>
                 {selectCategory.length > 0 ? (
-                  <strong>Filtro:</strong>
+                  <span>Filtro:</span>
                 ) : (
                   <SearchBar onChange={(value) => handleSearch(value)} />
                 )}
                 <div className="selectCategory">
                   {selectCategory.map((item) => (
                     <span
+                      style={{
+                        paddingRight: 16,
+                        cursor: "pointer",
+                        fontSize: 14,
+                      }}
                       key={item.id}
                       onClick={() => handleRemoveSelectCategory(item)}
                     >
-                      <BsX />
+                      <BsX size={22} />
                       {item.name}
                     </span>
                   ))}
@@ -282,9 +341,8 @@ const Product = () => {
                 <Table responsive style={{ border: "solid 1px #a9a9a9" }}>
                   <thead className="text-primary">
                     <tr>
-                      <th colSpan="2" className="text-center">
-                        Produto
-                      </th>
+                      <th></th>
+                      <th className="text-left">Produto</th>
                       <th>Unidade</th>
                       <th className="text-right">Preço</th>
                       <th>Promoção</th>
@@ -297,19 +355,14 @@ const Product = () => {
                     {dataProduct.map((item, idx) => (
                       <tr key={idx}>
                         <td align="center">
-                          <div className="contentImageName">
-                            <object
-                              data={item.image_url}
-                              type="image/png"
-                              className="avatar"
-                            >
-                              <img
-                                src={`${url}/uploads/default.jpg`}
-                                alt={item.description}
-                                className="avatar"
-                              />
-                            </object>
-                          </div>
+                          <img
+                            // className="avatar"
+                            src={item.image_url}
+                            alt={item.description}
+                            onError={({ currentTarget }) =>
+                              errorImageUrl(currentTarget)
+                            }
+                          />
                         </td>
                         <td className="title">
                           <img

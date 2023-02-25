@@ -21,14 +21,18 @@ import {
 import "./Styles.css";
 
 import { LOGIN_SUCCESS, SET_MESSAGE } from "../../store/Actions/types";
+import { ModalView } from "../../components";
+import UserSystem from "./UserSystem";
 import {
   upgradeUser,
   upgradePassUser,
   getAddressStore,
   getCep,
   updateAddressStore,
+  mask,
 } from "../../hooks";
-import { ModalView } from "../../components";
+
+import { typeUser } from "../../variables/typeUsers";
 
 import iconKey from "../../assets/img/icoKey_64.png";
 
@@ -298,6 +302,14 @@ const User = () => {
     });
   };
 
+  const apllyMask = (field, value) => {
+    const valueWithMask = mask(value, "(##) #####-####");
+    setFormAddressStore({
+      ...formAddressStore,
+      values: { ...formAddressStore.values, [field]: valueWithMask },
+    });
+  };
+
   return (
     <>
       <div className="content">
@@ -310,7 +322,7 @@ const User = () => {
                 <div className="author">
                   <a href="#serginLanche" onClick={(e) => e.preventDefault()}>
                     <img
-                      alt="..."
+                      alt="avatar"
                       className="avatar border-gray"
                       src={require("../../assets/img/avatar.png")}
                     />
@@ -497,6 +509,9 @@ const User = () => {
                           name="phone"
                           placeholder="Telefone"
                           value={formAddressStore.values.phone || ""}
+                          onBlur={() =>
+                            apllyMask("phone", formAddressStore.values.phone)
+                          }
                           onChange={(event) => handleChangeAddStore(event)}
                           type="text"
                           invalid={hasError("phone", nameForm.ADDRESS_STORE)}
@@ -561,6 +576,14 @@ const User = () => {
             </Card>
           </Col>
         </Row>
+
+        {typeUser[user.typeUser] === typeUser.admin && (
+          <Row>
+            <Col>
+              <UserSystem />
+            </Col>
+          </Row>
+        )}
       </div>
       {/* MODAL DE ALTERAR SENHA */}
       <ModalView

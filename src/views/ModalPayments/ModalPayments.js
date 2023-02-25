@@ -24,7 +24,9 @@ const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
 
   useEffect(() => {
     const fetchData = async () =>
-      await getListPayments().then((resp) => setListPayment(resp));
+      await getListPayments({ active: true, renew: false }).then((resp) => {
+        setListPayment(resp.filter((item) => item.active));
+      });
     fetchData();
   }, []);
 
@@ -77,14 +79,24 @@ const ModalPayments = ({ dataCommad, open, toogle, makePayment }) => {
       toggle={handleCancel}
       confirmed={handleMakePayment}
     >
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 16,
+          marginBottom: 10,
+          color: "#a0a0a0",
+        }}
+      >
         <span>Mesa: {commad.table_id}</span>
         <span>Comanda: {commad.id_commads}</span>
         <span>🕓 {formatDateTime(commad.created_at)}</span>
       </div>
 
-      <h4>{commad.name_client}</h4>
-      <h6>Selecione tipo de pagamento</h6>
+      <h4>Cliente: {commad.name_client}</h4>
+
+      <span className="title-modal-payment">Selecione tipo de pagamento</span>
+
       {selectedPayment ? (
         <div className="content-type-payment-selected">
           <img src={selectedPayment.image_url} alt={selectedPayment.type} />

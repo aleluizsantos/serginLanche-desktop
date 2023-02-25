@@ -63,7 +63,11 @@ const ShowAdditional = ({ product, changerAdditional }) => {
 
     const sumTotal = (valueProduct + sumTotalAdditional) * amount;
     // Atualizar o state do componete com o novo valor
-    setCurrentProduct({ ...currentProduct, price: sumTotal });
+    setCurrentProduct({
+      ...currentProduct,
+      price: sumTotal,
+      pricePromotion: sumTotal,
+    });
     changerAdditional(itemSelected, amount, sumTotal);
     return sumTotal;
   };
@@ -90,7 +94,13 @@ const ShowAdditional = ({ product, changerAdditional }) => {
           {currentProduct.promotion && (
             <span>De {formatCurrency(product.price)} por</span>
           )}
-          <CardText tag="h5">{formatCurrency(currentProduct.price)}</CardText>
+          <CardText tag="h5">
+            {formatCurrency(
+              currentProduct.promotion
+                ? currentProduct.pricePromotion
+                : currentProduct.price
+            )}
+          </CardText>
 
           <CardText tag="cite">{currentProduct.ingredient}</CardText>
         </div>

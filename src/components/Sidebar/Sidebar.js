@@ -9,6 +9,7 @@ import logo from "../../logo.png";
 import { upgradeOpenClose } from "../../store/Actions";
 import { CLEAR_MESSAGE } from "../../store/Actions/types";
 import Swift from "../Switch";
+import { typeUser } from "../../variables/typeUsers";
 import configPackage from "../../../package.json";
 
 let ps;
@@ -68,6 +69,9 @@ const Sidebar = (props) => {
         <div className="user">
           <h6>{user.name}</h6>
           <span>{user.email}</span>
+          <span style={{ textTransform: "uppercase" }}>
+            {typeUser[user.typeUser]}
+          </span>
         </div>
 
         <div className="openClose">

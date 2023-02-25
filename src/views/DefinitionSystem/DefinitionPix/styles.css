@@ -1,0 +1,8 @@
+.content-key-pix {
+    display: flex;
+    justify-content: center;
+    height: 250px;
+}
+.content-key-pix img {
+    object-fit: contain;
+}

@@ -35,6 +35,18 @@ export const getOpeningHours = async () => {
     .then((resp) => resp.data);
 };
 
+// Lista de todos os horários de funcionamento da semana
+export const getListAllHoursOpening = async () => {
+  return await api.get("openingHours").then((resp) => resp.data);
+};
+
+// Atualizar a lista de horário de funcionamentos
+export const updateListHoursOpening = async (data) => {
+  return await api
+    .put(`openingHours/update`, data, { headers: authHeader() })
+    .then((resp) => resp.data);
+};
+
 // Salvar as alterações do horario de abertura e fechamento
 export const saveOpeningHours = async (data) => {
   return await api

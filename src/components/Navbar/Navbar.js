@@ -139,23 +139,6 @@ const NavbarHeader = (props) => {
               </Link>
             </NavItem>
 
-            {/* <Dropdown
-              nav
-              isOpen={dropdownOpen}
-              toggle={(e) => dropdownToggle(e)}
-            >
-              <DropdownToggle caret nav>
-                <i className="nc-icon nc-bell-55" />
-                <p>
-                  <span className="d-lg-none d-md-block">Exibir</span>
-                </p>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem tag="a">Perfil</DropdownItem>
-                <DropdownItem tag="a">Configurações</DropdownItem>
-                <DropdownItem tag="a">SAIR</DropdownItem>
-              </DropdownMenu>
-            </Dropdown> */}
             <NavItem>
               <Link
                 to="#"

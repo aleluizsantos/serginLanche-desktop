@@ -94,7 +94,7 @@ export const ModalAddNewCommads = ({
   return (
     <ModalView
       size="md"
-      title={"🔖 Nova comanda"}
+      title="🔖 Nova comanda"
       modal={open}
       toggle={() => toogle(!open)}
       confirmed={createNewCommads}

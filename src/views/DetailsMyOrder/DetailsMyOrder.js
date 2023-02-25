@@ -6,6 +6,7 @@ import {
   BsTrash,
   BsFillPrinterFill,
   BsPlusCircleDotted,
+  BsArrowLeftCircle,
 } from "react-icons/bs";
 // reactstrap components
 import {
@@ -49,14 +50,11 @@ import icoTrash from "../../assets/img/icoTrash-64.png";
 import icoBuy from "../../assets/img/icoBuy-64.png";
 import icoStatus from "../../assets/img/icoStatus_64.png";
 
-const typeDelivery = {
-  EM_ANALISE: 1,
-  EM_PREPARAÇÃO: 2,
-  ROTA_ENTREGA: 3,
-  RETIRAR_LOJA: 4,
-  AGENDADO: 5,
-  FINALIZADO: 6,
-};
+import {
+  stageDelivery,
+  typeDelivery,
+  typePayment,
+} from "../../variables/types";
 
 const imgHeader = (idTypeDelivery) => {
   switch (idTypeDelivery) {
@@ -118,7 +116,7 @@ const DetailsMyOrder = (props) => {
       setMyOrder(state);
       setPhoneWhatsapp(state?.phone?.replace(/([^\d])+/gim, ""));
       setDescriptionStatus(state.statusRequest);
-      state.statusRequest_id < typeDelivery.RETIRAR_LOJA
+      state.statusRequest_id < stageDelivery.RETIRAR_LOJA
         ? setCurrentPorcent(
             state.statusRequest_id === 5 ? 4 * 25 : state.statusRequest_id * 25
           )
@@ -152,7 +150,7 @@ const DetailsMyOrder = (props) => {
   }
 
   function nextStageMyOrder() {
-    if (myOrder.statusRequest_id < typeDelivery.AGENDADO) {
+    if (myOrder.statusRequest_id < stageDelivery.AGENDADO) {
       //Checar se foi alterado as quantidade dos item
       if (changeAmount.isEdit) salveChangeItem();
 
@@ -182,7 +180,7 @@ const DetailsMyOrder = (props) => {
 
   //Deletar o pedido
   function handleRemoverOrder() {
-    if (myOrder.statusRequest_id <= typeDelivery.EM_PREPARAÇÃO) {
+    if (myOrder.statusRequest_id <= stageDelivery.EM_PREPARACAO) {
       deletePedido(myOrder.id).then(() => {
         dispatch({
           type: SET_MESSAGE,
@@ -202,7 +200,7 @@ const DetailsMyOrder = (props) => {
   function handleRemoverItem() {
     const { id, request_id } = itemSelected;
 
-    myOrder.statusRequest_id <= typeDelivery.EM_PREPARAÇÃO &&
+    myOrder.statusRequest_id <= stageDelivery.EM_PREPARACAO &&
       deleteItemPedido(request_id, id).then((response) => {
         setMyOrder(response.dataOrder);
         setItemsMyOrders(response.items);
@@ -424,12 +422,11 @@ const DetailsMyOrder = (props) => {
               <CardTitle tag="h4">
                 <div className="headerCard">
                   <Button
-                    className="btn"
-                    outline
-                    size="sm"
+                    className="btn-round btn-icon"
+                    color="info"
                     onClick={() => handleGoBack()}
                   >
-                    Voltar
+                    <BsArrowLeftCircle size={28} color="#007bff" />
                   </Button>
                   <span>Detalhe do pedido</span>
                   <div>
@@ -440,7 +437,7 @@ const DetailsMyOrder = (props) => {
                       }}
                     >
                       <span>{state.deliveryType}</span>
-                      {state.deliveryType_id === 3 && (
+                      {state.deliveryType_id === typeDelivery.TABLE && (
                         <>
                           <span
                             style={{
@@ -482,30 +479,31 @@ const DetailsMyOrder = (props) => {
                   <p className="titleName">{myOrder?.name_client}</p>
 
                   <p>
-                    {myOrder.deliveryType_id === 3 &&
+                    {myOrder.deliveryType_id === typeDelivery.TABLE &&
                       `Atendente: ${myOrder.name}`}
                   </p>
-                  {state?.phone && state.deliveryType_id !== 3 && (
-                    <div>
-                      <Button
-                        color="default"
-                        outline
-                        size="sm"
-                        onClick={() =>
-                          handleMessageWhatsapp(
-                            `Olá ${myOrder.name_client} tudo bem. %0ASomos do Sergin Lanche.`
-                          )
-                        }
-                      >
-                        <img
-                          className="iconWhatsapp"
-                          src={imgWhatsapp}
-                          alt="Icone Whatsapp"
-                        />{" "}
-                        Entre em contato <span>{myOrder.phone}</span>
-                      </Button>
-                    </div>
-                  )}
+                  {state?.phone &&
+                    state.deliveryType_id !== typeDelivery.TABLE && (
+                      <div>
+                        <Button
+                          color="default"
+                          outline
+                          size="sm"
+                          onClick={() =>
+                            handleMessageWhatsapp(
+                              `Olá ${myOrder.name_client} tudo bem. %0ASomos do Sergin Lanche.`
+                            )
+                          }
+                        >
+                          <img
+                            className="iconWhatsapp"
+                            src={imgWhatsapp}
+                            alt="Icone Whatsapp"
+                          />{" "}
+                          Entre em contato <span>{myOrder.phone}</span>
+                        </Button>
+                      </div>
+                    )}
                 </div>
 
                 <div>
@@ -528,7 +526,7 @@ const DetailsMyOrder = (props) => {
                     <img src={state.image} alt="icone" /> {state.payment}
                   </span>
                 </div>
-                {state.payment_id === 1 && (
+                {state.payment_id === typePayment.DINHEIRO && (
                   <div>
                     <strong>Troco para: </strong>
                     <span style={{ fontSize: 20 }}>R$ {state.cash}</span>
@@ -543,23 +541,31 @@ const DetailsMyOrder = (props) => {
                     <span>Pedido</span>
                   </div>
                   <div className="state" onClick={handleIsModal}>
-                    {myOrder.statusRequest_id > 1 && <BsFillBagCheckFill />}
+                    {myOrder.statusRequest_id > stageDelivery.EM_ANALISE && (
+                      <BsFillBagCheckFill />
+                    )}
                     <span>Aprovar</span>
                   </div>
                   <div className="state" onClick={handleIsModal}>
-                    {myOrder.statusRequest_id > 2 && <BsFillBagCheckFill />}
+                    {myOrder.statusRequest_id > stageDelivery.EM_PREPARACAO && (
+                      <BsFillBagCheckFill />
+                    )}
                     <span>Preparado</span>
                   </div>
                   <div className="state" onClick={handleIsModal}>
-                    {myOrder.statusRequest_id > 3 && <BsFillBagCheckFill />}
+                    {myOrder.statusRequest_id > stageDelivery.ROTA_ENTREGA && (
+                      <BsFillBagCheckFill />
+                    )}
                     <span>
-                      {myOrder.deliveryType_id === 1
+                      {myOrder.deliveryType_id === typeDelivery.DELIVERY
                         ? "Confirmar Entrega"
                         : "Retirar na Loja"}
                     </span>
                   </div>
                   <div className="state" onClick={handleIsModal}>
-                    {myOrder.statusRequest_id === 6 && <BsFillBagCheckFill />}
+                    {myOrder.statusRequest_id === stageDelivery.FINALIZADO && (
+                      <BsFillBagCheckFill />
+                    )}
                     <span>Finalizado</span>
                   </div>
                   <div
@@ -589,7 +595,7 @@ const DetailsMyOrder = (props) => {
                           <td>
                             <div className="groupItem">
                               {myOrder.statusRequest_id <=
-                                typeDelivery.EM_PREPARAÇÃO && (
+                                stageDelivery.EM_PREPARACAO && (
                                 <i
                                   className="fa fa-times"
                                   onClick={() => handleModalRemoveItem(item)}
@@ -638,7 +644,7 @@ const DetailsMyOrder = (props) => {
                               name={item.id}
                               disabled={
                                 myOrder.statusRequest_id <=
-                                typeDelivery.EM_PREPARAÇÃO
+                                stageDelivery.EM_PREPARACAO
                                   ? false
                                   : true
                               }
@@ -732,7 +738,7 @@ const DetailsMyOrder = (props) => {
                 <div className="groupFooterButton">
                   <Button
                     disabled={
-                      myOrder.statusRequest_id <= typeDelivery.EM_PREPARAÇÃO
+                      myOrder.statusRequest_id <= stageDelivery.EM_PREPARACAO
                         ? false
                         : true
                     }
@@ -742,7 +748,7 @@ const DetailsMyOrder = (props) => {
                   </Button>
                   <Button
                     disabled={
-                      myOrder.statusRequest_id <= typeDelivery.EM_PREPARAÇÃO
+                      myOrder.statusRequest_id <= stageDelivery.EM_PREPARACAO
                         ? false
                         : true
                     }
@@ -774,18 +780,18 @@ const DetailsMyOrder = (props) => {
         confirmed={() => nextStageMyOrder(myOrder.id)}
       >
         <div className="bodyModalStatus">
-          {myOrder.statusRequest_id === 1 && (
+          {myOrder.statusRequest_id === stageDelivery.EM_ANALISE && (
             <span>
               Aprovar o pedido do cliente <strong>{myOrder.name}</strong>
             </span>
           )}
-          {myOrder.statusRequest_id === 2 && (
+          {myOrder.statusRequest_id === stageDelivery.EM_PREPARACAO && (
             <span>Pedido está pronto para a entrega.</span>
           )}
-          {myOrder.statusRequest_id === 3 && (
+          {myOrder.statusRequest_id === stageDelivery.ROTA_ENTREGA && (
             <span>Produto foi entregue, finalizar o pedido.</span>
           )}
-          {myOrder.statusRequest_id === 4 && (
+          {myOrder.statusRequest_id === stageDelivery.RETIRAR_LOJA && (
             <span>Produto foi retirado na loja, finalizar o pedido.</span>
           )}
         </div>

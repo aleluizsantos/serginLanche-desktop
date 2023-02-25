@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BsArrowLeftCircle, BsBank } from "react-icons/bs";
 import { useHistory } from "react-router-dom";
 
+import { saveTable } from "../../hooks/useTable";
 import "./styles.css";
 
 import {
@@ -22,8 +23,12 @@ const MyTables = () => {
   const [modalNewTable, setModalNewTable] = useState(false);
 
   useEffect(() => {
-    getListTable().then((resp) => setTables(resp));
+    loadingTable();
   }, []);
+
+  const loadingTable = async () => {
+    getListTable().then((resp) => setTables(resp));
+  };
 
   const handleSelectedTable = (table) => {
     history.push({
@@ -32,19 +37,34 @@ const MyTables = () => {
     });
   };
 
+  const createNewTable = async (form) => {
+    //Verificar a validação do formulário
+    if (form.isValid) {
+      saveTable(form.values).then(() => {
+        setModalNewTable(!modalNewTable);
+        loadingTable();
+      });
+    }
+  };
+
   return (
     <div className="content">
       <Card style={{ height: "100vh" }}>
         <CardHeader tag="h5" style={{ display: "flex", alignItems: "center" }}>
-          <Button onClick={() => history.goBack()} size="sm">
-            <BsArrowLeftCircle size={26} />
+          <Button
+            className="btn-round btn-icon"
+            color="info"
+            onClick={() => history.goBack()}
+          >
+            <BsArrowLeftCircle size={24} color="#007bff" />
           </Button>
           <Button
-            title="Início"
+            style={{ marginLeft: 10 }}
+            className="btn-round btn-icon"
+            color="info"
             onClick={() => history.push("dashboard")}
-            size="sm"
           >
-            <BsBank size={26} />
+            <BsBank size={22} color="#007bff" />
           </Button>
           <CardText style={{ marginLeft: 20 }}>Atendimento Mesas</CardText>
         </CardHeader>
@@ -60,6 +80,7 @@ const MyTables = () => {
             ))}
           </div>
         </CardBody>
+
         <CardFooter>
           <Button
             onClick={() => setModalNewTable(!modalNewTable)}
@@ -74,6 +95,7 @@ const MyTables = () => {
       <ModalTableNew
         open={modalNewTable}
         toogle={() => setModalNewTable(!modalNewTable)}
+        saveTable={createNewTable}
       />
     </div>
   );

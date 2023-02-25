@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getCategory } from "../../hooks/Product";
+import { getCategory, errorImageUrl } from "../../hooks";
 
 export default function ListCategory({ onClick }) {
   const [category, setCategory] = useState([]);
@@ -28,7 +28,11 @@ export default function ListCategory({ onClick }) {
 const ItemCategoy = ({ item, onClick }) => {
   return (
     <div className="item-category" onClick={onClick}>
-      <img src={item.image_url} alt={item.name} />
+      <img
+        src={item.image_url}
+        alt={item.name}
+        onError={({ currentTarget }) => errorImageUrl(currentTarget)}
+      />
       <span>{item.name}</span>
     </div>
   );

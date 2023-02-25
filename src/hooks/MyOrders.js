@@ -2,16 +2,7 @@ import api from "../services/api";
 import { authHeader } from "../services/authHeader";
 import { isAuthenticated } from "./Auth";
 
-export const typeStatusMyOrders = {
-  EM_ANASILE: 1,
-  EM_PREPARACAO: 2,
-  ROTA_ENTREGA: 3,
-  RETIRAR_LOJA: 4,
-  AGENDADO: 5,
-  FINALIZADO: 6,
-  ACTIVE: "1,2,3,4,5",
-  ALL: "1,2,3,4,5,6,7",
-};
+import { stageDelivery, typeDelivery } from "../variables/types";
 
 /**
  * RETORNA UMA LISTA DE PEDIDOS, CONFORME O STATUS PASSADO.
@@ -28,9 +19,7 @@ export const getOrders = async (statusReq) => {
         statusRequest: statusReq,
       },
     })
-    .then((response) => {
-      return response.data;
-    });
+    .then((response) => response.data);
 };
 
 /**
@@ -40,7 +29,7 @@ export const getOrders = async (statusReq) => {
 export const checkNewOrder = async () => {
   try {
     if (isAuthenticated()) {
-      const newOrders = await getOrders(typeStatusMyOrders.EM_ANASILE);
+      const newOrders = await getOrders(stageDelivery.EM_ANALISE);
       return newOrders;
     }
     return [];
@@ -69,9 +58,10 @@ export const getItemsMyOrders = async (idMyOrder) => {
  */
 export const upDateStateMyOrders = async (item, setStatus = null) => {
   const { Authorization } = authHeader();
+
   let nextStage = item.statusRequest_id + 1;
   // Verificar se o tipo de delivery é ATENDIMENTO MESA
-  if (item.deliveryType_id === 3) {
+  if (item.deliveryType_id === typeDelivery.TABLE) {
     nextStage = 7;
   } else {
     nextStage = setStatus === null ? nextStage : setStatus;
@@ -81,11 +71,15 @@ export const upDateStateMyOrders = async (item, setStatus = null) => {
     ...item,
     nextStage: nextStage,
   };
+
   return await api
     .put(`/request`, data, {
       headers: { Authorization: Authorization },
     })
-    .then((response) => response.data);
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
 };
 
 /**
@@ -187,7 +181,8 @@ export const createOrder = async (order) => {
     .post("/request/create", data, {
       headers: { Authorization: Authorization },
     })
-    .then((resp) => resp);
+    .then((resp) => resp)
+    .catch((error) => console.log(error.message));
 };
 
 /**

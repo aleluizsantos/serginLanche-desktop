@@ -25,6 +25,7 @@ import {
   BsPencilSquare,
   BsZoomIn,
   BsGripVertical,
+  BsFillPlusCircleFill,
 } from "react-icons/bs";
 
 import "./styles.css";
@@ -54,6 +55,8 @@ import imgNoMobile from "../../assets/img/noMobile.png";
 import imgMobile from "../../assets/img/mobile.png";
 import imgUniqueChoice from "../../assets/img/imgUniqueChoice.png";
 import imgMultChoice from "../../assets/img/imgMultChoice.png";
+
+import { errorImageUrl } from "../../hooks/Util";
 
 let FormStateProps = {
   isValid: false,
@@ -487,23 +490,50 @@ const ProductCategory = (props) => {
             <CardHeader>
               <CardTitle tag="h4">Categorias de Produtos</CardTitle>
               <Label>O produtos são agrupados conforme as categorias</Label>
-              <div>
-                <Button
-                  className="btn"
-                  outline
-                  size="sm"
-                  onClick={handleNewCategory}
-                >
-                  Nova Categoria
-                </Button>
-                <Button
-                  className="btn"
-                  outline
-                  size="sm"
-                  onClick={() => history.push({ pathname: "productNew" })}
-                >
-                  Novo Produto
-                </Button>
+              <div style={{ display: "flex" }}>
+                <div>
+                  <Button
+                    id="btn-add-category"
+                    onClick={handleNewCategory}
+                    className="btn-round btn-icon"
+                    color="info"
+                  >
+                    <BsFillPlusCircleFill size={28} color="#007bff" />
+                  </Button>
+                  <label
+                    htmlFor="btn-add-category"
+                    style={{
+                      cursor: "pointer",
+                      paddingRight: 8,
+                      paddingLeft: 8,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Categoria
+                  </label>
+                </div>
+
+                <div>
+                  <Button
+                    id="btn-add-product"
+                    onClick={() => history.push({ pathname: "productNew" })}
+                    className="btn-round btn-icon"
+                    color="info"
+                  >
+                    <BsFillPlusCircleFill size={28} color="#007bff" />
+                  </Button>
+                  <label
+                    htmlFor="btn-add-product"
+                    style={{
+                      cursor: "pointer",
+                      paddingRight: 8,
+                      paddingLeft: 8,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Produto
+                  </label>
+                </div>
               </div>
             </CardHeader>
             <CardBody>
@@ -521,9 +551,11 @@ const ProductCategory = (props) => {
                     <tr key={idx}>
                       <td align="center">
                         <img
-                          className="avatar"
                           src={item.image_url}
                           alt={item.name}
+                          onError={({ currentTarget }) =>
+                            errorImageUrl(currentTarget)
+                          }
                         />
                       </td>
                       <td>
@@ -597,12 +629,11 @@ const ProductCategory = (props) => {
               </Label>
               <div>
                 <Button
-                  className="btn"
-                  outline
-                  size="sm"
                   onClick={handleNewTypeAdditional}
+                  className="btn-round btn-icon"
+                  color="info"
                 >
-                  Mais adicionais
+                  <BsFillPlusCircleFill size={28} color="#007bff" />
                 </Button>
               </div>
             </CardHeader>
@@ -729,16 +760,15 @@ const ProductCategory = (props) => {
                 </Label>
                 <div>
                   <Button
-                    className="btn"
-                    outline
-                    size="sm"
                     onClick={() =>
                       handleNewAddicional(
                         showAdditional.selectedTypeAdditional.id
                       )
                     }
+                    className="btn-round btn-icon"
+                    color="info"
                   >
-                    Novo
+                    <BsFillPlusCircleFill size={28} color="#007bff" />
                   </Button>
                 </div>
               </CardHeader>
@@ -755,7 +785,7 @@ const ProductCategory = (props) => {
                     {additional.map((item, idx) => (
                       <tr key={idx}>
                         <td>
-                          <BsGripVertical />
+                          <BsGripVertical size={22} />
                           <span>{item.description}</span>
                         </td>
                         <td style={{ textAlign: "right" }}>R$ {item.price}</td>
@@ -857,6 +887,7 @@ const ProductCategory = (props) => {
                     : URL.createObjectURL(formState.image[0])
                 }
                 alt={formState.values.image_url || ""}
+                onError={({ currentTarget }) => errorImageUrl(currentTarget)}
               />
             </label>
             <input

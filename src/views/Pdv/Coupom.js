@@ -5,6 +5,7 @@ import { BsTrash } from "react-icons/bs";
 
 import logo from "../../assets/img/icon.png";
 import { formatCurrency, getAddressStore } from "../../hooks";
+import { typeDelivery } from "../../variables/types";
 
 const Coupom = ({ order, removerItem, checkout }) => {
   const { user } = useSelector((state) => state.Authenticate);
@@ -39,19 +40,21 @@ const Coupom = ({ order, removerItem, checkout }) => {
         </div>
 
         <div style={{ paddingTop: 10, borderBottom: "1px solid #cfcece" }}>
-          {order.deliveryType_id === 3 && (
+          {order.deliveryType_id === typeDelivery.TABLE && (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h6>MESA: {order?.commads?.table_id}</h6>
               <h6>COMANDA: {order?.commads?.id_commads}</h6>
             </div>
           )}
           <h6>Cliente: {order?.commads?.name_client}</h6>
-          {order.deliveryType_id !== 3 && (
+          {order.deliveryType_id !== typeDelivery.TABLE && (
             <>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h6>{order?.phone}</h6>
                 <h6>
-                  {order.deliveryType_id === 1 ? "Delivery" : "Retirar Loja"}
+                  {order.deliveryType_id === typeDelivery.DELIVERY
+                    ? "Delivery"
+                    : "Retirar Loja"}
                 </h6>
               </div>
               <span>

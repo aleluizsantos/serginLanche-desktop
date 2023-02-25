@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const host = "http://localhost:3333";
+const host = "http://18.230.188.137:3333";
 
 const api = axios.create({
   baseURL: host,

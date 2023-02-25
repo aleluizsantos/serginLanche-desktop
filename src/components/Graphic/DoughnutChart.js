@@ -44,7 +44,7 @@ const DoughnutChart = ({ title, label, sourceData, iconTitle = "" }) => {
         <CardTitle>
           <div className="content-cardTitle">
             <span>{title}</span>
-            {iconTitle && <img src={iconTitle} alt="icone usser" />}
+            {iconTitle && <img src={iconTitle} alt="icone user" />}
           </div>
         </CardTitle>
       </CardHeader>

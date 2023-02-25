@@ -6,7 +6,6 @@
     flex-wrap: wrap;
     padding-top: 10px;
     overflow-y: auto;
-    max-height: 100%;
 }
 
 
@@ -80,3 +79,10 @@
             font-weight: bold;
             color: #252525;
         }
+@media screen and (min-width: 1300px) {
+    .contentCardTable {
+        margin-left: 16vw;
+        margin-right: 16vw;
+    }
+}
+/* @media(max-width: 700px) { */

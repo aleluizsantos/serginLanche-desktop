@@ -9,7 +9,6 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter,
 } from "reactstrap";
 
 import { useLocation, useHistory } from "react-router-dom";
@@ -26,8 +25,6 @@ const Pdv = () => {
   const [listPayment, setListPayment] = useState([]);
   const { state } = useLocation();
   const [order, setOrder] = useState(typeFormMyOrder);
-
-  console.log(order);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +55,9 @@ const Pdv = () => {
   }, []);
   useEffect(() => {
     const fetchData = async () =>
-      await getListPayments().then((resp) => setListPayment(resp));
+      await getListPayments({ active: true, renew: false }).then((resp) =>
+        setListPayment(resp)
+      );
     fetchData();
   }, []);
   // Adiciona o produto escolhido na order items
@@ -125,17 +124,25 @@ const Pdv = () => {
           ))}
         </ModalBody>
       </Modal>
+
       <Card>
         <CardHeader tag="h5" style={{ display: "flex", alignItems: "center" }}>
-          <Button title="Voltar" onClick={() => history.goBack()} size="sm">
-            <BsArrowLeftCircle size={26} />
+          <Button
+            className="btn-round btn-icon"
+            color="info"
+            title="Voltar"
+            onClick={() => history.goBack()}
+          >
+            <BsArrowLeftCircle size={28} color="#007bff" />
           </Button>
           <Button
+            style={{ marginLeft: 10 }}
+            className="btn-round btn-icon"
+            color="info"
             title="Início"
             onClick={() => history.push("dashboard")}
-            size="sm"
           >
-            <BsBank size={26} />
+            <BsBank size={22} color="#007bff" />
           </Button>
           <CardText style={{ marginLeft: 20 }}>Ponto de Venda</CardText>
         </CardHeader>

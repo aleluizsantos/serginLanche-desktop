@@ -21,15 +21,20 @@ export const updateTaxa = async (formTaxa) => {
     .then((response) => response.data);
 };
 
-export const getListPayments = async () => {
+export const getListPayments = async ({ active, renew }) => {
   const { Authorization } = authHeader();
   // Checar se a lista de tipo de pagamentos está armazenado no localstorage, caso
   // não esteja raliza um busca na api.
-  let typePayments = JSON.parse(localStorage.getItem("_system_type_payments"));
+  let typePayments = null;
+
+  if (!renew)
+    typePayments = JSON.parse(localStorage.getItem("_system_type_payments"));
+
+  const url = active ? "/payment" : "/payment/all";
 
   if (!typePayments) {
     await api
-      .get("payment", {
+      .get(url, {
         headers: { Authorization: Authorization },
       })
       .then((resp) => {
@@ -41,4 +46,29 @@ export const getListPayments = async () => {
       });
   }
   return typePayments;
+};
+
+export const updateActivePayment = async (typePayment) => {
+  const { Authorization } = authHeader();
+
+  const data = {
+    active: !typePayment.active,
+  };
+
+  return api.put(`payment/active/${typePayment.id}`, data, {
+    headers: { Authorization: Authorization },
+  });
+};
+
+export const updateTypePayment = async (typePayment) => {
+  const { Authorization } = authHeader();
+
+  const data = {
+    active: typePayment.active,
+    key_pix: typePayment.key_pix,
+  };
+
+  return api.put(`payment/${typePayment.id}`, data, {
+    headers: { Authorization: Authorization },
+  });
 };

@@ -217,6 +217,7 @@ const UserClient = () => {
                   <tr>
                     <th>
                       <input
+                        style={{ marginLeft: 10 }}
                         checked={
                           selectedUsers.length ===
                           (valueSearch === ""
@@ -242,6 +243,7 @@ const UserClient = () => {
                       <tr key={item.id}>
                         <td>
                           <input
+                            style={{ marginLeft: 10 }}
                             type="checkbox"
                             checked={selectedUsers.includes(
                               item.tokenPushNotification
@@ -285,7 +287,11 @@ const UserClient = () => {
                             </Badge>
                           )}
                         </td>
-                        <td>{`${item.address}, ${item.number}, ${item.neighborhood}, ${item.city}`}</td>
+                        <td>
+                          {item.address
+                            ? `${item.address}, ${item.number}, ${item.neighborhood}, ${item.city}`
+                            : "Endereço não informado"}
+                        </td>
                         <td>{formatDateTime(item.created_at)}</td>
                       </tr>
                     )

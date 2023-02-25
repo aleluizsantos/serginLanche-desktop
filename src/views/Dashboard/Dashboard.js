@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { addDays, subDays, format } from "date-fns";
-// react plugin used to create charts
-import { Line } from "react-chartjs-2";
 // reactstrap components
 import {
   Card,
@@ -17,27 +14,19 @@ import {
 
 import "./styles.css";
 
-import {
-  getSaleDay,
-  getSaleWeek,
-  getSaleYear,
-  getTop10,
-} from "../../hooks/Reports";
+import { getSaleDay, getTop10 } from "../../hooks/Reports";
 import { formatTime, formatDate, formatCurrency } from "../../hooks/format";
 import { Graphic } from "../../components";
 
 import imgTop10 from "../../assets/img/imgTop10.png";
 import imgDelivery from "../../assets/img/imgDelivery.png";
 import imgPayment from "../../assets/img/imgPayment.png";
-
-//data do computador
-const date = new Date().toLocaleString();
+import GraphicSaleWeek from "./GraphicSaleWeek";
+import GraphicSaleYear from "./GraphicSaleYear";
 
 const Dashboard = (props) => {
   const history = useHistory();
   const [saleDay, setSaleDay] = useState("");
-  const [saleweek, setSaleWeek] = useState({});
-  const [saleYear, setSaleYear] = useState([]);
   const [top10, setTop10] = useState(null);
   const { clientsOnline, clientsRegistered, newOrders } = useSelector(
     (state) => state.Notificate
@@ -47,151 +36,10 @@ const Dashboard = (props) => {
     (async () => {
       getSaleDay().then((respSaleDay) => {
         setSaleDay(respSaleDay.totalSaleDay);
-        getSaleWeek().then((respSaleWeek) => {
-          setSaleWeek(respSaleWeek);
-          getSaleYear().then((respSaleYear) => {
-            setSaleYear(respSaleYear);
-            getTop10().then((respTop10) => setTop10(respTop10));
-          });
-        });
+        getTop10().then((respTop10) => setTop10(respTop10));
       });
     })();
   }, []);
-
-  // Lista as venda Semana ATUAL
-  const currentWeek = () => {
-    getSaleWeek().then((response) => {
-      setSaleWeek(response);
-    });
-  };
-  // Lista as venda de semanas posteriores
-  const incrementWeek = () => {
-    const currentWeek = new Date(saleweek.interval?.from);
-    const lastWeek = addDays(currentWeek, 7);
-    const lastWeekFormated = format(lastWeek, "yyyy-M-d");
-
-    getSaleWeek(lastWeekFormated).then((response) => {
-      setSaleWeek(response);
-    });
-  };
-  // Lista as venda de semanas anteriores
-  const decrementWeek = async () => {
-    const currentWeek = new Date(saleweek.interval?.from);
-    const lastWeek = subDays(currentWeek, 7);
-    const lastWeekFormated = format(lastWeek, "yyyy-M-d");
-
-    getSaleWeek(lastWeekFormated).then((response) => {
-      setSaleWeek(response);
-    });
-  };
-
-  const chartSaleWeek = {
-    data: (canvas) => {
-      return {
-        labels: [
-          "Segunda",
-          "Terça",
-          "Quarta",
-          "Quinta",
-          "Sexta",
-          "Sábado",
-          "Domingo",
-        ],
-        datasets: [
-          {
-            label: "Venda Diária",
-            fill: true,
-            borderColor: "#00bf55",
-            backgroundColor: "#6bd098",
-            pointRadius: 5,
-            pointHoverRadius: 10,
-            borderWidth: 2,
-            data: saleweek.data,
-          },
-        ],
-      };
-    },
-    options: {
-      legend: {
-        display: true,
-      },
-
-      tooltips: {
-        enabled: true,
-      },
-
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              fontColor: "#9f9f9f",
-              beginAtZero: true,
-              maxTicksLimit: 5,
-              padding: 20,
-            },
-            gridLines: {
-              drawBorder: false,
-              zeroLineColor: "#ccc",
-              color: "rgba(255,255,255,0.05)",
-            },
-          },
-        ],
-
-        xAxes: [
-          {
-            barPercentage: 1.6,
-            gridLines: {
-              drawBorder: false,
-              color: "rgba(255,255,255,0.1)",
-              zeroLineColor: "transparent",
-              display: false,
-            },
-            ticks: {
-              padding: 20,
-              fontColor: "#9f9f9f",
-            },
-          },
-        ],
-      },
-    },
-  };
-
-  const chartSaleYear = {
-    data: {
-      labels: [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-      ],
-      datasets: [
-        {
-          data: saleYear,
-          fill: false,
-          borderColor: "#fbc658",
-          backgroundColor: "transparent",
-          pointBorderColor: "#fbc658",
-          pointRadius: 4,
-          pointHoverRadius: 4,
-          pointBorderWidth: 4,
-        },
-      ],
-    },
-    options: {
-      legend: {
-        display: false,
-        position: "top",
-      },
-    },
-  };
 
   return (
     <>
@@ -310,73 +158,12 @@ const Dashboard = (props) => {
         </Row>
         <Row>
           <Col md="12">
-            <Card>
-              <CardHeader className="headerWeek">
-                <CardTitle tag="h5">
-                  Vendas Semanal
-                  {saleweek.interval && (
-                    <p className="card-category">
-                      Período: {formatDate(saleweek.interval?.from)} à{" "}
-                      {formatDate(saleweek.interval?.to)}
-                    </p>
-                  )}
-                </CardTitle>
-                <div className="action">
-                  <i
-                    className=" nc-icon nc-minimal-left"
-                    onClick={decrementWeek}
-                  />
-                  <i className="nc-icon nc-shop" onClick={currentWeek} />
-                  <i
-                    className=" nc-icon nc-minimal-right"
-                    onClick={incrementWeek}
-                  />
-                </div>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={chartSaleWeek.data}
-                  options={chartSaleWeek.options}
-                  width={400}
-                  height={100}
-                />
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-history" />
-                  {formatDate(new Date())}
-                </div>
-              </CardFooter>
-            </Card>
+            <GraphicSaleWeek />
           </Col>
         </Row>
         <Row>
           <Col md="12">
-            <Card className="card-chart">
-              <CardHeader>
-                <CardTitle tag="h5">Vendas anuais</CardTitle>
-                <p className="card-category">Totais vendas mês a mês.</p>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={chartSaleYear.data}
-                  options={chartSaleYear.options}
-                  width={400}
-                  height={100}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="chart-legend">
-                  <i className="fa fa-circle text-warning" />{" "}
-                  {1900 + new Date().getYear()}
-                </div>
-                <hr />
-                <div className="card-stats">
-                  <i className="fa fa-check" /> Dados atualizados {date}
-                </div>
-              </CardFooter>
-            </Card>
+            <GraphicSaleYear />
           </Col>
         </Row>
         <Row>

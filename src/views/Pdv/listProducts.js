@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "../../components/SearchBar";
 
 import { getProductCategory, getProductSearch } from "../../hooks/Product";
-import { formatCurrency, debounceEvent } from "../../hooks";
+import { formatCurrency, debounceEvent, errorImageUrl } from "../../hooks";
 import ListCategory from "./listCategory";
 import { FormsAddToCar } from "./FormsAddToCar";
 
@@ -91,7 +91,11 @@ const ItemProduc = ({ item, action }) => {
       <div className="description">
         <span>{item.name} </span>
       </div>
-      <img src={item.image_url} alt={item.name} />
+      <img
+        src={item.image_url}
+        alt={item.name}
+        onError={({ currentTarget }) => errorImageUrl(currentTarget)}
+      />
     </div>
   );
 };

@@ -10,11 +10,14 @@ import {
 } from "reactstrap";
 
 import "./styles.css";
-import { validationForms } from "./FormsSalePhone/validationForms";
 
+import { validationForms } from "../../components";
 import imgDelivery from "../../assets/img/delivery.png";
 import imgStore from "../../assets/img/store.png";
 import FormsSalePhone from "./FormsSalePhone/FormsSalePhone";
+import { schemFormSalePhone } from "./FormsSalePhone/validationForms";
+
+import { typePayment } from "../../variables/types";
 
 const SalePhone = () => {
   const history = useHistory();
@@ -40,7 +43,7 @@ const SalePhone = () => {
       },
     };
 
-    const errors = validationForms(dataForm.values);
+    const errors = validationForms(dataForm.values, schemFormSalePhone);
 
     dataForm = {
       ...dataForm,
@@ -70,7 +73,7 @@ const SalePhone = () => {
           city: city,
           uf: "SP",
         },
-        typePayment: 2, // Cartão de crédito
+        typePayment: typePayment.DINHEIRO,
       };
       history.push({ pathname: "pdv", state: data });
     }

@@ -24,6 +24,7 @@ import {
 import "./styles.css";
 import { getMyOrders, signIn } from "../../store/Actions";
 import { isAuthenticated } from "../../hooks";
+import configPackage from "../../../package.json";
 
 const Login = (props) => {
   const [isloading, setIsloading] = useState(false);
@@ -122,7 +123,7 @@ const Login = (props) => {
       <Row xs="1" sm="1" md="2">
         <Col className="signinImg" />
         <Col className="content">
-          <span className="version">Version: 1.1.5</span>
+          <span className="version">versão {configPackage.version}</span>
           <Card className="contentCard">
             <CardHeader className="text-center">
               {message && (

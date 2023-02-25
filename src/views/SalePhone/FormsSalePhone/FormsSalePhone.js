@@ -3,7 +3,7 @@ import React from "react";
 import "./styles.css";
 
 import { FormGroup, Input, Row, Col, Label } from "reactstrap";
-import { ErrorForms } from "./validationForms";
+import { ErrorForms } from "../../../components";
 
 const FormsSalePhone = ({ hasError, handleChangeForms, formState }) => {
   return (
