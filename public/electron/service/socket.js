@@ -1,6 +1,6 @@
 const io = require("socket.io-client");
 
-const host = "http://18.230.188.137:3333";
+const host = "http://18.229.41.134:3333";
 
 const socket = io(host, {
   transports: ["websocket"],
